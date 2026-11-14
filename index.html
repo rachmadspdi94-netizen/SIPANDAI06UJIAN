@@ -634,25 +634,49 @@
                         </div>
                     </div>
 
-                    <!-- TAB 2: REKAP NILAI -->
+                    <!-- TAB 2: REKAP NILAI (FORMAT PIVOT BARU) -->
                     <div id="tab-results" class="hidden flex-col animate-fadeIn">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3 bg-gray-50 p-4 rounded-xl border">
-                            <h3 class="text-xl font-bold text-gray-800">Tabel Nilai Siswa</h3>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Rekapitulasi Nilai (Pivot)</h3>
+                                <p class="text-xs text-gray-500">Otomatis menghitung rata-rata berdasarkan jumlah pelajaran di tiap fase kelas.</p>
+                            </div>
                             <div class="flex gap-2 items-center w-full sm:w-auto">
-                                <select id="filter-class" class="border rounded-lg px-3 py-2 text-sm bg-white" onchange="renderResultsTable()"><option value="ALL">Semua Kelas</option><option value="IA">IA</option><option value="IB">IB</option><option value="II">II</option><option value="IIIA">IIIA</option><option value="IIIB">IIIB</option><option value="IIIC">IIIC</option><option value="IVA">IVA</option><option value="IVB">IVB</option><option value="VA">VA</option><option value="VB">VB</option><option value="VC">VC</option><option value="VIA">VIA</option><option value="VIB">VIB</option><option value="VIC">VIC</option></select>
-                                <select id="filter-subject" class="border rounded-lg px-3 py-2 text-sm bg-white" onchange="renderResultsTable()"><option value="ALL">Semua Mapel</option><option value="Pendidikan Agama Islam & Budi Pekerti">Agama Islam</option><option value="Pendidikan Agama Kristen & Budi Pekerti">Agama Kristen</option><option value="Pendidikan Pancasila">Pancasila</option><option value="Bahasa Indonesia">B. Indonesia</option><option value="Matematika">Matematika</option><option value="IPAS">IPAS</option><option value="Seni Musik/Rupa">Seni</option><option value="PJOK">PJOK</option><option value="Bahasa Inggris">B. Inggris</option><option value="KKA (Koding dn Kecerdasan Artifisial)">KKA</option></select>
-                                <button onclick="downloadCSV()" class="bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow hover:bg-green-600">Unduh Data</button>
-                                <button onclick="clearClassData()" class="bg-red-100 text-red-600 px-3 py-2 rounded-lg font-bold text-sm shadow hover:bg-red-200">Hapus</button>
+                                <select id="filter-class" class="border rounded-lg px-3 py-2 text-sm bg-white font-bold text-indigo-700" onchange="renderResultsTable()">
+                                    <option value="ALL">Semua Kelas</option>
+                                    <option value="IA">IA</option><option value="IB">IB</option><option value="II">II</option>
+                                    <option value="IIIA">IIIA</option><option value="IIIB">IIIB</option><option value="IIIC">IIIC</option>
+                                    <option value="IVA">IVA</option><option value="IVB">IVB</option>
+                                    <option value="VA">VA</option><option value="VB">VB</option><option value="VC">VC</option>
+                                    <option value="VIA">VIA</option><option value="VIB">VIB</option><option value="VIC">VIC</option>
+                                </select>
+                                <button onclick="printResultsPDF()" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow hover:bg-red-600">Cetak PDF</button>
+                                <button onclick="downloadCSV()" class="bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow hover:bg-green-600">Unduh Excel</button>
+                                <button onclick="clearClassData()" class="bg-gray-200 text-gray-600 px-3 py-2 rounded-lg font-bold text-sm shadow hover:bg-gray-300">Hapus</button>
                             </div>
                         </div>
                         <div class="overflow-x-auto w-full bg-white border rounded-xl">
-                            <table class="min-w-full">
-                                <thead class="bg-gray-100 text-gray-500 text-xs uppercase font-bold sticky top-0">
-                                    <tr><th class="py-3 px-4 text-left">Siswa</th><th class="py-3 px-4 text-left">Kelas/Mapel</th><th class="py-3 px-4 text-center">Nilai</th><th class="py-3 px-4 text-center">Aksi</th></tr>
+                            <table class="min-w-full text-xs">
+                                <thead class="bg-gray-100 text-gray-600 uppercase font-bold sticky top-0 border-b-2">
+                                    <tr>
+                                        <th class="py-2 px-2 text-center border">No</th>
+                                        <th class="py-2 px-2 text-center border">NISN</th>
+                                        <th class="py-2 px-4 text-left border">Nama Lengkap</th>
+                                        <th class="py-2 px-2 text-center border">Agama</th>
+                                        <th class="py-2 px-2 text-center border">PKN</th>
+                                        <th class="py-2 px-2 text-center border">B. Ind</th>
+                                        <th class="py-2 px-2 text-center border">MTK</th>
+                                        <th class="py-2 px-2 text-center border">IPAS</th>
+                                        <th class="py-2 px-2 text-center border">SBdP</th>
+                                        <th class="py-2 px-2 text-center border">PJOK</th>
+                                        <th class="py-2 px-2 text-center border">B. Ing</th>
+                                        <th class="py-2 px-2 text-center border">KKA</th>
+                                        <th class="py-2 px-2 text-center border bg-indigo-50">Jml</th>
+                                        <th class="py-2 px-2 text-center border bg-indigo-100">Rata</th>
+                                    </tr>
                                 </thead>
-                                <tbody id="results-tbody" class="text-sm font-medium"></tbody>
+                                <tbody id="results-pivot-tbody" class="text-sm font-medium"></tbody>
                             </table>
-                            <div id="no-data-msg" class="text-center py-10 text-gray-400 hidden">Belum ada data.</div>
                         </div>
                     </div>
 
@@ -677,7 +701,7 @@
                             </div>
                         </div>
                         <div id="analysis-content" class="pr-2">
-                            <!-- Injected Chart -->
+                            <!-- Injected Matrix Table -->
                         </div>
                     </div>
 
@@ -1242,99 +1266,328 @@
             }
         });
 
+        // --- FUNGSI REKAP NILAI (PIVOT TABLE) ---
         function renderResultsTable() {
-            const tbody = document.getElementById('results-tbody');
+            const tbody = document.getElementById('results-pivot-tbody');
             if(!tbody) return;
             const fClass = document.getElementById('filter-class').value;
-            const fSubj = document.getElementById('filter-subject').value;
             
-            let data = window.studentResults;
-            if(fClass !== 'ALL') data = data.filter(d => d.kelas === fClass);
-            if(fSubj !== 'ALL') data = data.filter(d => d.subject === fSubj);
+            let students = Object.values(window.studentDatabase || {});
+            if(fClass !== 'ALL') students = students.filter(s => s.kelas === fClass);
+            
+            students.sort((a,b) => a.name.localeCompare(b.name));
 
-            tbody.innerHTML = '';
-            document.getElementById('no-data-msg').classList.toggle('hidden', data.length > 0);
-            document.querySelector('#tab-results table').classList.toggle('hidden', data.length === 0);
+            let html = '';
+            students.forEach((student, index) => {
+                let sRes = window.studentResults.filter(r => r.name === student.name && r.kelas === student.kelas);
+                
+                const getScore = (keywords) => {
+                    let res = sRes.find(x => keywords.some(k => x.subject.includes(k)));
+                    return res ? res.score : 0;
+                };
 
-            [...data].reverse().forEach(res => {
-                tbody.innerHTML += `<tr class="border-b hover:bg-gray-50">
-                    <td class="py-3 px-4 font-bold text-gray-800">${res.name} <br><span class="text-[10px] text-red-500 font-normal">${res.violations>0?res.violations+' Pelanggaran':''}</span></td>
-                    <td class="py-3 px-4 text-xs font-bold text-gray-500"><span class="bg-gray-200 px-2 py-1 rounded">${res.kelas}</span><br><span class="mt-1 inline-block">${res.subject}</span></td>
-                    <td class="py-3 px-4 text-center font-black text-lg ${res.score<70?'text-red-500':'text-green-600'}">${res.score}</td>
-                    <td class="py-3 px-4 text-center"><button onclick="showDetail('${res.docId || res.id}')" class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded font-bold text-xs">Cek</button></td>
+                let scoreAgama = Math.max(getScore(["Agama Islam"]), getScore(["Agama Kristen"]));
+                let scorePkn = getScore(["Pancasila"]);
+                let scoreBind = getScore(["Bahasa Indonesia"]);
+                let scoreMtk = getScore(["Matematika"]);
+                let scoreSeni = getScore(["Seni"]);
+                let scorePjok = getScore(["PJOK"]);
+                let scoreBing = getScore(["Inggris"]);
+
+                let cls = student.kelas;
+                let isKelas12 = ["IA", "IB", "II"].includes(cls);
+                let isKelas34 = ["IIIA", "IIIB", "IIIC", "IVA", "IVB"].includes(cls);
+
+                let scoreIpas = isKelas12 ? "-" : getScore(["IPAS"]);
+                let scoreKka = (isKelas12 || isKelas34) ? "-" : getScore(["KKA"]);
+
+                let sum = scoreAgama + scorePkn + scoreBind + scoreMtk + scoreSeni + scorePjok + scoreBing;
+                let divisor = 7;
+
+                if (!isKelas12) {
+                    sum += (scoreIpas !== "-" ? scoreIpas : 0);
+                    divisor++;
+                }
+                if (!isKelas12 && !isKelas34) {
+                    sum += (scoreKka !== "-" ? scoreKka : 0);
+                    divisor++;
+                }
+
+                let rata = (sum / divisor).toFixed(1);
+
+                html += `<tr class="border-b hover:bg-gray-50 text-center">
+                    <td class="py-2 px-2 border border-gray-300 text-gray-500">${index+1}</td>
+                    <td class="py-2 px-2 border border-gray-300 font-mono text-gray-600">${student.nisn}</td>
+                    <td class="py-2 px-4 text-left border border-gray-300 font-bold text-gray-800">${student.name}</td>
+                    <td class="py-2 px-2 border border-gray-300 ${scoreAgama===0?'text-red-400':''}">${scoreAgama}</td>
+                    <td class="py-2 px-2 border border-gray-300 ${scorePkn===0?'text-red-400':''}">${scorePkn}</td>
+                    <td class="py-2 px-2 border border-gray-300 ${scoreBind===0?'text-red-400':''}">${scoreBind}</td>
+                    <td class="py-2 px-2 border border-gray-300 ${scoreMtk===0?'text-red-400':''}">${scoreMtk}</td>
+                    <td class="py-2 px-2 border border-gray-300 bg-gray-50 ${scoreIpas===0?'text-red-400':''}">${scoreIpas}</td>
+                    <td class="py-2 px-2 border border-gray-300 ${scoreSeni===0?'text-red-400':''}">${scoreSeni}</td>
+                    <td class="py-2 px-2 border border-gray-300 ${scorePjok===0?'text-red-400':''}">${scorePjok}</td>
+                    <td class="py-2 px-2 border border-gray-300 ${scoreBing===0?'text-red-400':''}">${scoreBing}</td>
+                    <td class="py-2 px-2 border border-gray-300 bg-gray-50 ${scoreKka===0?'text-red-400':''}">${scoreKka}</td>
+                    <td class="py-2 px-2 border border-gray-300 bg-indigo-50 font-bold text-gray-700">${sum}</td>
+                    <td class="py-2 px-2 border border-gray-300 bg-indigo-100 font-black text-indigo-700">${rata}</td>
                 </tr>`;
             });
+
+            if(students.length === 0) {
+                html = `<tr><td colspan="14" class="py-8 text-center text-gray-400 font-medium">Tidak ada data siswa. Silakan tambahkan di menu Data Siswa.</td></tr>`;
+            }
+            tbody.innerHTML = html;
         }
 
+        // --- PDF REKAP NILAI ---
+        function printResultsPDF() {
+            let fClass = document.getElementById('filter-class').value;
+            if (fClass === 'ALL') {
+                showModal("Peringatan", "Pilih Kelas yang spesifik untuk dicetak PDF agar rapi.");
+                return;
+            }
+
+            let students = Object.values(window.studentDatabase || {}).filter(s => s.kelas === fClass);
+            if(students.length === 0) {
+                showModal("Kosong", "Tidak ada data siswa."); return;
+            }
+            students.sort((a,b) => a.name.localeCompare(b.name));
+
+            let info = window.schoolInfo || {};
+            let t = (info.teachersClass || {})[fClass] || {};
+            let teacherName = t.name || ".....................................";
+            let teacherNip = t.nip || "..........................";
+            let tgl = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            let html = `
+                <div class="print-container">
+                    <style>@page { size: legal landscape; }</style>
+                    <h2 class="text-center font-bold text-xl uppercase">REKAPITULASI NILAI</h2>
+                    <h3 class="text-center font-bold text-lg mb-4 uppercase">${window.examTitle}</h3>
+                    <div class="flex justify-between mb-2 font-bold text-sm">
+                        <div>Kelas: ${fClass}</div>
+                    </div>
+                    <table class="print-table mb-8">
+                        <thead>
+                            <tr>
+                                <th style="width: 3%;">No</th>
+                                <th style="width: 8%;">NISN</th>
+                                <th class="text-left" style="width: 25%;">Nama Lengkap</th>
+                                <th>Agama</th><th>PKN</th><th>B. Ind</th><th>MTK</th><th>IPAS</th>
+                                <th>SBdP</th><th>PJOK</th><th>B. Ing</th><th>KKA</th>
+                                <th style="background-color: #e0e7ff !important;">Jml</th>
+                                <th style="background-color: #c7d2fe !important;">Rata</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            students.forEach((student, index) => {
+                let sRes = window.studentResults.filter(r => r.name === student.name && r.kelas === student.kelas);
+                const getScore = (kws) => { let r = sRes.find(x => kws.some(k => x.subject.includes(k))); return r ? r.score : 0; };
+
+                let scoreAgama = Math.max(getScore(["Agama Islam"]), getScore(["Agama Kristen"]));
+                let scorePkn = getScore(["Pancasila"]);
+                let scoreBind = getScore(["Bahasa Indonesia"]);
+                let scoreMtk = getScore(["Matematika"]);
+                let scoreSeni = getScore(["Seni"]);
+                let scorePjok = getScore(["PJOK"]);
+                let scoreBing = getScore(["Inggris"]);
+
+                let isKelas12 = ["IA", "IB", "II"].includes(fClass);
+                let isKelas34 = ["IIIA", "IIIB", "IIIC", "IVA", "IVB"].includes(fClass);
+
+                let scoreIpas = isKelas12 ? "-" : getScore(["IPAS"]);
+                let scoreKka = (isKelas12 || isKelas34) ? "-" : getScore(["KKA"]);
+
+                let sum = scoreAgama + scorePkn + scoreBind + scoreMtk + scoreSeni + scorePjok + scoreBing;
+                let divisor = 7;
+                if (!isKelas12) { sum += (scoreIpas !== "-" ? scoreIpas : 0); divisor++; }
+                if (!isKelas12 && !isKelas34) { sum += (scoreKka !== "-" ? scoreKka : 0); divisor++; }
+                let rata = (sum / divisor).toFixed(1);
+
+                html += `
+                    <tr>
+                        <td>${index+1}</td>
+                        <td>${student.nisn}</td>
+                        <td class="text-left">${student.name}</td>
+                        <td>${scoreAgama}</td><td>${scorePkn}</td><td>${scoreBind}</td><td>${scoreMtk}</td><td>${scoreIpas}</td>
+                        <td>${scoreSeni}</td><td>${scorePjok}</td><td>${scoreBing}</td><td>${scoreKka}</td>
+                        <td style="font-weight:bold; background-color: #f3f4f6 !important;">${sum}</td>
+                        <td style="font-weight:bold; background-color: #f3f4f6 !important;">${rata}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                    <div class="flex justify-between px-10 text-sm mt-10">
+                        <div class="text-center">
+                            <p>Mengetahui,</p>
+                            <p class="font-bold">Kepala ${info.schoolName || 'Satuan Pendidikan'}</p>
+                            <br><br><br><br>
+                            <p class="font-bold underline">${info.kepsekName || '.....................................'}</p>
+                            <p>NIP. ${info.kepsekNip || '..........................'}</p>
+                        </div>
+                        <div class="text-center">
+                            <p>Manado, ${tgl}</p>
+                            <p class="font-bold">Guru Kelas ${fClass}</p>
+                            <br><br><br><br>
+                            <p class="font-bold underline">${teacherName}</p>
+                            <p>NIP. ${teacherNip}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('print-area').innerHTML = html;
+            window.print();
+        }
+
+        // --- EXCEL REKAP NILAI PIVOT ---
+        function downloadCSV() {
+            let fClass = document.getElementById('filter-class').value;
+            let students = Object.values(window.studentDatabase || {});
+            if(fClass !== 'ALL') students = students.filter(s => s.kelas === fClass);
+            
+            if(students.length === 0){ showModal("Kosong", "Tidak ada data siswa."); return; }
+            students.sort((a,b) => a.name.localeCompare(b.name));
+
+            let csv = `\ufeff`; // BOM for excel
+            csv += `REKAPITULASI NILAI\n`;
+            csv += `${window.examTitle.toUpperCase()}\n`;
+            csv += `Kelas : ${fClass}\n\n`;
+            csv += `"No","NISN","Nama Lengkap","Agama","PKN","B. Ind","MTK","IPAS","SBdP","PJOK","B. Ing","KKA","Jml","Rata"\n`;
+
+            students.forEach((student, index) => {
+                let sRes = window.studentResults.filter(r => r.name === student.name && r.kelas === student.kelas);
+                const getScore = (kws) => { let r = sRes.find(x => kws.some(k => x.subject.includes(k))); return r ? r.score : 0; };
+
+                let scoreAgama = Math.max(getScore(["Agama Islam"]), getScore(["Agama Kristen"]));
+                let scorePkn = getScore(["Pancasila"]);
+                let scoreBind = getScore(["Bahasa Indonesia"]);
+                let scoreMtk = getScore(["Matematika"]);
+                let scoreSeni = getScore(["Seni"]);
+                let scorePjok = getScore(["PJOK"]);
+                let scoreBing = getScore(["Inggris"]);
+
+                let cls = student.kelas;
+                let isKelas12 = ["IA", "IB", "II"].includes(cls);
+                let isKelas34 = ["IIIA", "IIIB", "IIIC", "IVA", "IVB"].includes(cls);
+
+                let scoreIpas = isKelas12 ? "-" : getScore(["IPAS"]);
+                let scoreKka = (isKelas12 || isKelas34) ? "-" : getScore(["KKA"]);
+
+                let sum = scoreAgama + scorePkn + scoreBind + scoreMtk + scoreSeni + scorePjok + scoreBing;
+                let divisor = 7;
+                if (!isKelas12) { sum += (scoreIpas !== "-" ? scoreIpas : 0); divisor++; }
+                if (!isKelas12 && !isKelas34) { sum += (scoreKka !== "-" ? scoreKka : 0); divisor++; }
+                let rata = (sum / divisor).toFixed(1);
+
+                csv += `"${index+1}","${student.nisn}","${student.name}",${scoreAgama},${scorePkn},${scoreBind},${scoreMtk},"${scoreIpas}",${scoreSeni},${scorePjok},${scoreBing},"${scoreKka}",${sum},"${rata}"\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.href = url;
+            link.download = `Rekap_Nilai_${fClass}_${new Date().getTime()}.csv`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // --- FUNGSI TABEL MATRIKS ANALISIS BUTIR SOAL ---
         function renderAnalysisTable() {
             const container = document.getElementById('analysis-content');
             if(!container) return;
             const fClass = document.getElementById('filter-class-analysis').value;
             const fSubj = document.getElementById('filter-subject-analysis').value;
-            
-            let data = window.studentResults;
-            if(fClass !== 'ALL') data = data.filter(d => d.kelas === fClass);
-            if(fSubj !== 'ALL') data = data.filter(d => d.subject === fSubj);
 
-            if(data.length === 0) {
-                container.innerHTML = '<div class="text-center py-10 text-gray-400">Belum ada data untuk dianalisis.</div>';
+            if (fClass === 'ALL' || fSubj === 'ALL') {
+                container.innerHTML = '<div class="text-center py-10 text-gray-400">Silakan pilih Kelas dan Mata Pelajaran spesifik untuk melihat matriks analisis.</div>';
                 return;
             }
 
-            let stats = {};
-            data.forEach(res => {
-                if(!stats[res.subject]) stats[res.subject] = {};
-                res.detail.forEach(d => {
-                    if(!stats[res.subject][d.no]) stats[res.subject][d.no] = { wrong: 0, total: 0 };
-                    stats[res.subject][d.no].total++;
-                    if(!d.isCorrect) stats[res.subject][d.no].wrong++;
+            let students = Object.values(window.studentDatabase || {}).filter(s => s.kelas === fClass);
+            if (students.length === 0) {
+                container.innerHTML = '<div class="text-center py-10 text-gray-400">Belum ada data siswa terdaftar di kelas ini.</div>';
+                return;
+            }
+            students.sort((a, b) => a.name.localeCompare(b.name));
+
+            let numQuestions = 0;
+            if (window.questionDatabase && window.questionDatabase[fClass] && window.questionDatabase[fClass][fSubj]) {
+                numQuestions = window.questionDatabase[fClass][fSubj].length;
+            }
+            let classResults = window.studentResults.filter(r => r.kelas === fClass && r.subject === fSubj);
+
+            if (numQuestions === 0) {
+                classResults.forEach(r => {
+                    if (r.detail && r.detail.length > numQuestions) numQuestions = r.detail.length;
                 });
+            }
+
+            if (numQuestions === 0) {
+                container.innerHTML = '<div class="text-center py-10 text-gray-400">Belum ada data ujian untuk kelas & mapel ini.</div>';
+                return;
+            }
+
+            let html = `
+            <div class="overflow-x-auto w-full bg-white border rounded-xl mt-4 shadow-sm">
+                <table class="min-w-full text-xs">
+                    <thead class="bg-blue-50 text-blue-900 uppercase font-bold sticky top-0 border-b-2">
+                        <tr>
+                            <th class="py-2 px-2 text-center border border-blue-200">No</th>
+                            <th class="py-2 px-2 text-center border border-blue-200">NISN</th>
+                            <th class="py-2 px-4 text-left border border-blue-200" style="min-width: 150px;">Nama Siswa</th>
+            `;
+
+            for (let i = 1; i <= numQuestions; i++) {
+                html += `<th class="py-2 px-1 text-center border border-blue-200 w-8">${i}</th>`;
+            }
+
+            html += `
+                            <th class="py-2 px-2 text-center border border-blue-200 bg-blue-100">Jml Benar</th>
+                            <th class="py-2 px-2 text-center border border-blue-200 bg-blue-200">Nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm font-medium text-gray-700">
+            `;
+
+            students.forEach((student, index) => {
+                let result = classResults.find(r => r.name === student.name);
+                let correctCount = 0;
+                let tds = '';
+
+                for (let i = 0; i < numQuestions; i++) {
+                    let isC = (result && result.detail && result.detail[i] && result.detail[i].isCorrect) ? 1 : 0;
+                    if(isC) correctCount++;
+                    
+                    let cellClass = isC === 1 ? "text-gray-700" : "text-red-500 bg-red-50 font-bold";
+                    if(!result) {
+                       cellClass = "text-gray-400";
+                       isC = "-";
+                    }
+                    tds += `<td class="py-1 px-1 text-center border border-gray-200 ${cellClass}">${isC}</td>`;
+                }
+
+                let nilai = result ? Math.round((correctCount / numQuestions) * 100) : 0;
+
+                html += `
+                    <tr class="hover:bg-gray-50">
+                        <td class="py-1 px-2 text-center border border-gray-200">${index + 1}</td>
+                        <td class="py-1 px-2 text-center border border-gray-200 font-mono text-xs">${student.nisn}</td>
+                        <td class="py-1 px-4 text-left border border-gray-200 whitespace-nowrap overflow-hidden">${student.name}</td>
+                        ${tds}
+                        <td class="py-1 px-2 text-center border border-gray-200 font-bold bg-blue-50">${correctCount}</td>
+                        <td class="py-1 px-2 text-center border border-gray-200 font-black text-blue-700 bg-blue-100">${nilai}</td>
+                    </tr>
+                `;
             });
 
-            let html = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
-            for(let mapel in stats) {
-                html += `<div class="bg-white border rounded-xl p-4"><h4 class="font-bold border-b pb-2 mb-3">${mapel}</h4><div class="space-y-3">`;
-                let keys = Object.keys(stats[mapel]).sort((a,b)=>a-b);
-                keys.forEach(no => {
-                    let st = stats[mapel][no];
-                    let pct = Math.round((st.wrong/st.total)*100);
-                    let color = pct > 50 ? 'bg-red-500' : (pct > 20 ? 'bg-yellow-500' : 'bg-green-500');
-                    html += `<div class="flex items-center gap-2 text-sm">
-                        <span class="w-10 font-bold">No.${no}</span>
-                        <div class="flex-grow bg-gray-200 rounded-full h-3"><div class="${color} h-3 rounded-full" style="width:${pct}%"></div></div>
-                        <span class="w-14 text-right font-bold ${pct>50?'text-red-500':''}">${pct}% X</span>
-                    </div>`;
-                });
-                html += `</div></div>`;
-            }
-            container.innerHTML = html + `</div>`;
-        }
-
-        function showDetail(id) {
-            let res = window.studentResults.find(r => (r.docId === id || r.id === id));
-            if(!res) return;
-            let w = res.detail.filter(d => !d.isCorrect);
-            let msg = `Soal salah:<br><ul class='text-left list-disc pl-5 mt-2 text-sm text-red-600'>`;
-            if(w.length===0) msg = "Semua Benar!";
-            else w.forEach(x => msg += `<li>No.${x.no}: ${x.text.substring(0,40)}...</li>`);
-            showModal(res.name, msg + "</ul>");
-        }
-
-        function downloadCSV() {
-            let csv = "data:text/csv;charset=utf-8,Waktu,Siswa,Kelas,Mapel,Nilai,Pelanggaran\n";
-            let fClass = document.getElementById('filter-class').value;
-            let fSubj = document.getElementById('filter-subject').value;
-            let data = window.studentResults;
-            if(fClass !== 'ALL') data = data.filter(d => d.kelas === fClass);
-            if(fSubj !== 'ALL') data = data.filter(d => d.subject === fSubj);
-            
-            if(data.length===0){ showModal("Kosong", "Tidak ada data"); return; }
-            data.forEach(r => csv += `"${r.timestamp}","${r.name}","${r.kelas}","${r.subject}",${r.score},${r.violations}\n`);
-            
-            const link = document.createElement("a");
-            link.href = encodeURI(csv);
-            link.download = `Nilai_${fClass}_${new Date().getTime()}.csv`;
-            link.click();
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
         }
 
         function downloadAnalysisCSV() {
