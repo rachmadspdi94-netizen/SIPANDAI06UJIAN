@@ -1266,7 +1266,7 @@
             }
         });
 
-        // --- FUNGSI REKAP NILAI (PIVOT TABLE) ---
+        // --- FUNGSI REKAP NILAI (PIVOT TABLE) DENGAN INDIKATOR CURANG ---
         function renderResultsTable() {
             const tbody = document.getElementById('results-pivot-tbody');
             if(!tbody) return;
@@ -1285,6 +1285,12 @@
                     let res = sRes.find(x => keywords.some(k => x.subject.includes(k)));
                     return res ? res.score : 0;
                 };
+
+                let totalViolations = 0;
+                sRes.forEach(r => {
+                    if (r.violations) totalViolations += r.violations;
+                });
+                let warningIcon = totalViolations > 0 ? ` <span title="Terdeteksi keluar layar ${totalViolations} kali" class="cursor-help text-red-500 text-xs shadow-sm bg-red-100 rounded-full px-1 py-0.5 ml-1 inline-block">⚠️</span>` : '';
 
                 let scoreAgama = Math.max(getScore(["Agama Islam"]), getScore(["Agama Kristen"]));
                 let scorePkn = getScore(["Pancasila"]);
@@ -1318,7 +1324,7 @@
                 html += `<tr class="border-b hover:bg-gray-50 text-center">
                     <td class="py-2 px-2 border border-gray-300 text-gray-500">${index+1}</td>
                     <td class="py-2 px-2 border border-gray-300 font-mono text-gray-600">${student.nisn}</td>
-                    <td class="py-2 px-4 text-left border border-gray-300 font-bold text-gray-800">${student.name}</td>
+                    <td class="py-2 px-4 text-left border border-gray-300 font-bold text-gray-800">${student.name}${warningIcon}</td>
                     <td class="py-2 px-2 border border-gray-300 ${scoreAgama===0?'text-red-400':''}">${scoreAgama}</td>
                     <td class="py-2 px-2 border border-gray-300 ${scorePkn===0?'text-red-400':''}">${scorePkn}</td>
                     <td class="py-2 px-2 border border-gray-300 ${scoreBind===0?'text-red-400':''}">${scoreBind}</td>
@@ -1445,7 +1451,7 @@
             window.print();
         }
 
-        // --- EXCEL REKAP NILAI PIVOT ---
+        // --- EXCEL REKAP NILAI PIVOT DENGAN CATATAN SISTEM ---
         function downloadCSV() {
             let fClass = document.getElementById('filter-class').value;
             let students = Object.values(window.studentDatabase || {});
@@ -1458,11 +1464,17 @@
             csv += `REKAPITULASI NILAI\n`;
             csv += `${window.examTitle.toUpperCase()}\n`;
             csv += `Kelas : ${fClass}\n\n`;
-            csv += `"No","NISN","Nama Lengkap","Agama","PKN","B. Ind","MTK","IPAS","SBdP","PJOK","B. Ing","KKA","Jml","Rata"\n`;
+            csv += `"No","NISN","Nama Lengkap","Agama","PKN","B. Ind","MTK","IPAS","SBdP","PJOK","B. Ing","KKA","Jml","Rata","Catatan Sistem"\n`;
 
             students.forEach((student, index) => {
                 let sRes = window.studentResults.filter(r => r.name === student.name && r.kelas === student.kelas);
                 const getScore = (kws) => { let r = sRes.find(x => kws.some(k => x.subject.includes(k))); return r ? r.score : 0; };
+
+                let totalViolations = 0;
+                sRes.forEach(r => {
+                    if (r.violations) totalViolations += r.violations;
+                });
+                let catatanSistem = totalViolations > 0 ? `Terdeteksi keluar layar ${totalViolations}x` : `Aman`;
 
                 let scoreAgama = Math.max(getScore(["Agama Islam"]), getScore(["Agama Kristen"]));
                 let scorePkn = getScore(["Pancasila"]);
@@ -1485,7 +1497,7 @@
                 if (!isKelas12 && !isKelas34) { sum += (scoreKka !== "-" ? scoreKka : 0); divisor++; }
                 let rata = (sum / divisor).toFixed(1);
 
-                csv += `"${index+1}","${student.nisn}","${student.name}",${scoreAgama},${scorePkn},${scoreBind},${scoreMtk},"${scoreIpas}",${scoreSeni},${scorePjok},${scoreBing},"${scoreKka}",${sum},"${rata}"\n`;
+                csv += `"${index+1}","${student.nisn}","${student.name}",${scoreAgama},${scorePkn},${scoreBind},${scoreMtk},"${scoreIpas}",${scoreSeni},${scorePjok},${scoreBing},"${scoreKka}",${sum},"${rata}","${catatanSistem}"\n`;
             });
             
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
