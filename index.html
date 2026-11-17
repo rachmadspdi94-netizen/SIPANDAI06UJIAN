@@ -261,6 +261,7 @@ if(Object.keys(firebaseConfig).length>0){
                                 <div class="flex flex-wrap gap-2">
                                     <button onclick="window.downloadSoalWord()" class="bg-blue-100 text-blue-700 px-3 py-2 rounded-lg font-bold text-xs shadow hover:bg-blue-200 border border-blue-300">📄 Unduh Soal (.doc)</button>
                                     <button onclick="window.downloadKisiKisiCSV()" class="bg-green-100 text-green-700 px-3 py-2 rounded-lg font-bold text-xs shadow hover:bg-green-200 border border-green-300">📊 Unduh Kisi-kisi (.csv)</button>
+                                    <button onclick="window.printKisiKisiPDF()" class="bg-rose-100 text-rose-700 px-3 py-2 rounded-lg font-bold text-xs shadow hover:bg-rose-200 border border-rose-300">📑 Cetak Kisi-kisi (.pdf)</button>
                                     <button onclick="document.getElementById('ai-result-container').classList.add('hidden'); document.getElementById('ai-form-container').classList.remove('hidden');" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-bold text-sm shadow transition">Batal</button>
                                     <button onclick="window.saveAIQuestions()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold text-sm shadow hover:bg-indigo-700">Rilis Ujian</button>
                                 </div>
@@ -808,6 +809,7 @@ TUGAS: Buat set soal SD ${kelasLabel} | Mapel: ${mapel} | Materi: ${materi} | CP
 KAIDAH PENULISAN WAJIB:
 1. WAJIB berikan stimulus (cerita pendek, tabel, kasus kontekstual) di setiap soal.
 2. DILARANG KERAS menggunakan opsi "Semua jawaban benar" atau "Semua jawaban salah".
+3. TULIS DENGAN EFISIEN DAN KILAT. Buat stimulus yang padat dan jelas agar ukuran file ringan dan proses generasi sangat cepat.
 OUTPUT HARUS JSON ARRAY MURNI ([...]) TANPA TEKS LAIN. FORMAT:
 ${formatInstruksi.join('\n')}`;
 
@@ -879,6 +881,28 @@ ${formatInstruksi.join('\n')}`;
                 csvContent += `"${i+1}","${cp}","${materi}","${indikator}","${level}","${bentuk}","${i+1}"\n`;
             });
             const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", "data:text/csv;charset=utf-8," + encodedUri); link.setAttribute("download", `Kisi_Kisi_${mapel.replace(/ /g, '_')}_${kelas.replace(/ /g, '')}.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        }
+
+        window.printKisiKisiPDF = function() {
+            const mapel = document.getElementById('ai-mapel').value; const kelas = document.getElementById('ai-kelas').value; const materi = document.getElementById('ai-materi').value; const cp = document.getElementById('ai-cp').value;
+            let info = window.schoolInfo || {}; 
+            let clsCode = window.currentAITargetClass || "ALL"; 
+            let t = (info.teachersClass || {})[clsCode] || {}; 
+            let teacherName = t.name || "....................................."; let teacherNip = t.nip || ".........................."; 
+            let isKhusus = mapelKhusus.includes(mapel);
+            if (isKhusus && info.teachersSubject && info.teachersSubject[mapel]) { teacherName = info.teachersSubject[mapel].name; teacherNip = info.teachersSubject[mapel].nip; }
+            let tgl = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            
+            let html = `<div class="print-container"><style>@page { size: legal landscape; }</style><h2 class="text-center font-bold text-xl uppercase">KISI-KISI PENULISAN SOAL</h2><h3 class="text-center font-bold text-lg mb-4">TAHUN PELAJARAN 2026/2027</h3><div class="flex justify-between mb-2 font-bold text-sm"><div>Mata Pelajaran: ${mapel}</div><div>Kelas/Fase: ${kelas}</div></div>`;
+            html += `<table class="print-table mb-8"><thead><tr><th style="width: 3%;">No</th><th style="width: 25%;">Capaian Pembelajaran (CP)</th><th style="width: 15%;">Materi Pokok</th><th style="width: 30%;">Indikator Soal</th><th style="width: 10%;">Level Kognitif</th><th style="width: 10%;">Bentuk Soal</th><th style="width: 7%;">No. Soal</th></tr></thead><tbody>`;
+            
+            window.currentAIGeneratedQuestions.forEach((q, i) => {
+                let bentuk = q.type || 'PG'; let indikator = q.indikator || `Siswa dapat menyelesaikan persoalan terkait materi tersebut.`; let level = q.level_kognitif || "-";
+                html += `<tr><td>${i+1}</td><td class="text-left">${cp}</td><td class="text-left">${materi}</td><td class="text-left">${indikator}</td><td>${level}</td><td>${bentuk}</td><td style="font-weight:bold;">${i+1}</td></tr>`;
+            });
+            
+            html += `</tbody></table><div class="flex justify-between px-10 text-sm mt-10"><div class="text-center"><p>Mengetahui,</p><p class="font-bold">Kepala ${info.schoolName || 'Satuan Pendidikan'}</p><br><br><br><br><p class="font-bold underline">${info.kepsekName || '.....................................'}</p><p>NIP. ${info.kepsekNip || '..........................'}</p></div><div class="text-center"><p>Manado, ${tgl}</p><p class="font-bold">Guru Penyusun Soal</p><br><br><br><br><p class="font-bold underline">${teacherName}</p><p>NIP. ${teacherNip}</p></div></div></div>`;
+            document.getElementById('print-area').innerHTML = html; window.print();
         }
 
         window.downloadSoalWord = function() {
