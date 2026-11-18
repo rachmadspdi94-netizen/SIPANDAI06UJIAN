@@ -466,7 +466,7 @@ if(Object.keys(firebaseConfig).length>0){
                 window.activeBankSoal = existingProgress.activeBankSoal; window.studentAnswers = existingProgress.studentAnswers.map(a => ({ value: a.value !== undefined ? a.value : (a.optionIndex !== undefined ? a.optionIndex : null), ragu: a.ragu })); window.timeRemaining = existingProgress.timeRemaining; window.currentQuestionIndex = existingProgress.currentQuestionIndex || 0; window.violationsCount = existingProgress.violationsCount || 0;
             } else {
                 let clonedQuestions = JSON.parse(JSON.stringify(questions)); window.shuffleArray(clonedQuestions);
-                clonedQuestions.forEach(q => { q.type = q.type || 'PG'; if(q.type === 'PG') { let ansTxt = q.options[q.answer]; window.shuffleArray(q.options); q.answer = q.options.indexOf(ansTxt); } else if (q.type === 'MENJODOHKAN') { let rights = q.pairs.map(p => p.right); window.shuffleArray(rights); q.shuffledRightItems = rights; } });
+                clonedQuestions.forEach(q => { q.type = q.type || 'PG'; if(q.type === 'PG') { let ansTxt = q.options[q.answer]; q.options.sort((a, b) => a.toString().length - b.toString().length); q.answer = q.options.indexOf(ansTxt); } else if (q.type === 'MENJODOHKAN') { let rights = q.pairs.map(p => p.right); window.shuffleArray(rights); q.shuffledRightItems = rights; } });
                 window.activeBankSoal = clonedQuestions; window.studentAnswers = window.activeBankSoal.map(q => { return { value: q.type === 'MENJODOHKAN' ? {} : null, ragu: false }; }); window.currentQuestionIndex = 0; window.violationsCount = 0; window.timeRemaining = window.examDurationMinutes * 60; window.doAutoSave();
             }
             btnMulai.textContent = "Mulai Ujian"; btnMulai.disabled = false; window.textZoomLevel = 100; document.getElementById('single-question-container').style.fontSize = '100%';
@@ -869,7 +869,7 @@ ${formatInstruksi.join('\n')}`;
                 const data = await response.json(); let rawText = data.candidates[0].content.parts[0].text;
                 rawText = rawText.replace(/\x60{3}json/gi, '').replace(/\x60{3}/g, '').trim();
                 const jsonMatch = rawText.match(/\[[\s\S]*\]/); if (!jsonMatch) throw new Error("Format JSON gagal terbaca dari AI.");
-                const questionsArray = JSON.parse(jsonMatch[0]); window.currentAIGeneratedQuestions = questionsArray.map((q, i) => { q.id = i+1; return q; });
+                const questionsArray = JSON.parse(jsonMatch[0]); window.currentAIGeneratedQuestions = questionsArray.map((q, i) => { q.id = i+1; if ((q.type === 'PG' || !q.type) && q.options && q.answer !== undefined && q.answer !== null) { let correctOpt = q.options[q.answer]; q.options.sort((a, b) => a.toString().length - b.toString().length); q.answer = q.options.indexOf(correctOpt); } return q; });
                 let clsCode = "ALL"; if(kelasLabel.includes("1")) clsCode = "IA"; if(kelasLabel.includes("2")) clsCode = "II"; if(kelasLabel.includes("3")) clsCode = "IIIA"; if(kelasLabel.includes("4")) clsCode = "IVA"; if(kelasLabel.includes("5")) clsCode = "VA"; if(kelasLabel.includes("6")) clsCode = "VIA";
                 window.currentAITargetClass = clsCode; window.currentAITargetSubject = mapel; window.renderAIReview(questionsArray, mapel, kelasLabel);
             } catch (error) {
