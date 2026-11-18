@@ -245,6 +245,7 @@ if(Object.keys(firebaseConfig).length>0){
                                     <div class="border rounded-lg p-3 bg-gray-50 hover:border-emerald-300 transition"><div class="flex items-center gap-2 mb-2"><input type="checkbox" id="ai-chk-isian" class="w-4 h-4 text-emerald-600 rounded"><label class="font-bold text-sm text-gray-700 flex-grow cursor-pointer" for="ai-chk-isian">Isian Singkat</label></div><div class="flex gap-2 pl-6"><div class="w-1/2"><label class="text-[10px] font-bold text-gray-500">Jumlah Soal</label><input type="number" id="ai-jml-isian" value="5" min="1" class="w-full px-2 py-1 text-sm border rounded"></div><div class="w-1/2"><label class="text-[10px] font-bold text-gray-500">Bobot / Soal</label><input type="number" id="ai-bobot-isian" value="2" min="1" class="w-full px-2 py-1 text-sm border rounded"></div></div></div>
                                     <div class="border rounded-lg p-3 bg-gray-50 hover:border-emerald-300 transition"><div class="flex items-center gap-2 mb-2"><input type="checkbox" id="ai-chk-uraian" class="w-4 h-4 text-emerald-600 rounded"><label class="font-bold text-sm text-gray-700 flex-grow cursor-pointer" for="ai-chk-uraian">Uraian Panjang</label></div><div class="flex gap-2 pl-6"><div class="w-1/2"><label class="text-[10px] font-bold text-gray-500">Jumlah Soal</label><input type="number" id="ai-jml-uraian" value="2" min="1" class="w-full px-2 py-1 text-sm border rounded"></div><div class="w-1/2"><label class="text-[10px] font-bold text-gray-500">Bobot Maks</label><input type="number" id="ai-bobot-uraian" value="5" min="1" class="w-full px-2 py-1 text-sm border rounded"></div></div></div>
                                     <div class="border rounded-lg p-3 bg-gray-50 hover:border-emerald-300 transition"><div class="flex items-center gap-2 mb-2"><input type="checkbox" id="ai-chk-menjodohkan" class="w-4 h-4 text-emerald-600 rounded"><label class="font-bold text-sm text-gray-700 flex-grow cursor-pointer" for="ai-chk-menjodohkan">Menjodohkan (4 Pasang)</label></div><div class="flex gap-2 pl-6"><div class="w-1/2"><label class="text-[10px] font-bold text-gray-500">Jumlah Soal</label><input type="number" id="ai-jml-menjodohkan" value="1" min="1" class="w-full px-2 py-1 text-sm border rounded"></div><div class="w-1/2"><label class="text-[10px] font-bold text-gray-500">Bobot Maks</label><input type="number" id="ai-bobot-menjodohkan" value="4" min="1" class="w-full px-2 py-1 text-sm border rounded"></div></div></div>
+                                    <div class="border rounded-lg p-3 bg-gray-50 hover:border-emerald-300 transition md:col-span-2"><div class="flex items-center gap-2 mb-2"><input type="checkbox" id="ai-chk-gambar" class="w-4 h-4 text-emerald-600 rounded"><label class="font-bold text-sm text-gray-700 flex-grow cursor-pointer" for="ai-chk-gambar">Sertakan Soal Bergambar (Gambar Deskriptif)</label></div><div class="flex gap-2 pl-6"><div class="w-1/2"><label class="text-[10px] font-bold text-gray-500">Jumlah Soal Bergambar</label><input type="number" id="ai-jml-gambar" value="2" min="1" class="w-full px-2 py-1 text-sm border rounded"></div></div></div>
                                 </div>
                                 <div class="mt-4 pt-4 border-t">
                                     <button onclick="window.processAIGeneration()" id="btn-generate-ai" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-lg flex items-center justify-center gap-2 transition transform hover:scale-[1.01]">
@@ -381,6 +382,9 @@ if(Object.keys(firebaseConfig).length>0){
     
     <!-- Edit AI Modal -->
     <div id="edit-ai-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm"><div class="bg-white rounded-2xl p-6 w-11/12 max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto"><h3 class="text-xl font-bold mb-4 text-gray-800 border-b pb-2">Edit Soal AI</h3><input type="hidden" id="edit-ai-index"><div class="space-y-4"><div><label class="block text-xs font-bold text-gray-500 mb-1">Pertanyaan</label><textarea id="edit-ai-text" rows="3" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"></textarea></div><div id="edit-ai-dynamic-fields" class="space-y-3"></div><div><label class="block text-xs font-bold text-gray-500 mb-1">Pembahasan</label><textarea id="edit-ai-pembahasan" rows="2" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"></textarea></div></div><div class="flex justify-end gap-3 mt-6"><button class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-bold text-sm transition" onclick="window.closeEditAIModal()">Batal</button><button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-sm shadow transition" onclick="window.saveEditAIQuestion()">Simpan Perubahan</button></div></div></div>
+
+    <!-- Edit Database Modal -->
+    <div id="edit-db-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm"><div class="bg-white rounded-2xl p-6 w-11/12 max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto"><h3 class="text-xl font-bold mb-4 text-gray-800 border-b pb-2">Edit Soal Tersimpan</h3><input type="hidden" id="edit-db-cls"><input type="hidden" id="edit-db-sub"><input type="hidden" id="edit-db-index"><div class="space-y-4"><div><label class="block text-xs font-bold text-gray-500 mb-1">Pertanyaan</label><textarea id="edit-db-text" rows="3" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"></textarea></div><div id="edit-db-dynamic-fields" class="space-y-3"></div></div><div class="flex justify-end gap-3 mt-6"><button class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-bold text-sm transition" onclick="window.closeEditDBModal()">Batal</button><button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-sm shadow transition" onclick="window.saveEditDBQuestion()">Simpan Perubahan</button></div></div></div>
 
     <div id="print-area"></div>
 
@@ -589,7 +593,7 @@ if(Object.keys(firebaseConfig).length>0){
             let fClass = document.getElementById('filter-class').value; if (fClass === 'ALL') { window.showModal("Peringatan", "Pilih Kelas spesifik."); return; }
             let students = Object.values(window.studentDatabase || {}).filter(s => s.kelas === fClass); if(students.length === 0) { window.showModal("Kosong", "Tidak ada data."); return; } students.sort((a,b) => a.name.localeCompare(b.name));
             let info = window.schoolInfo || {}; let t = (info.teachersClass || {})[fClass] || {}; let teacherName = t.name || "....................................."; let teacherNip = t.nip || ".........................."; let tgl = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-            let html = `<div class="print-container"><style>@page { size: legal landscape; }</style><h2 class="text-center font-bold text-xl uppercase">REKAPITULASI NILAI</h2><h3 class="text-center font-bold text-lg mb-4 uppercase">${window.examTitle}</h3><div class="flex justify-between mb-2 font-bold text-sm"><div>Kelas: ${fClass}</div></div><table class="print-table mb-8"><thead><tr><th style="width: 3%;">No</th><th style="width: 8%;">NISN</th><th class="text-left" style="width: 25%;">Nama Lengkap</th><th>Agama</th><th>PKN</th><th>B. Ind</th><th>MTK</th><th>IPAS</th><th>SBdP</th><th>PJOK</th><th>B. Ing</th><th>KKA</th><th style="background-color: #e0e7ff !important;">Jml</th><th style="background-color: #c7d2fe !important;">Rata</th></tr></thead><tbody>`;
+            let html = `<div class="print-container"><style>@page { size: legal landscape; }</style><h2 class="text-center font-bold text-xl uppercase">REKAPITULASI NILAI ${window.examTitle.toUpperCase()}</h2><div class="flex justify-between mb-2 font-bold text-sm mt-4"><div>Kelas: ${fClass}</div></div><table class="print-table mb-8"><thead><tr><th style="width: 3%;">No</th><th style="width: 8%;">NISN</th><th class="text-left" style="width: 25%;">Nama Lengkap</th><th>Agama</th><th>PKN</th><th>B. Ind</th><th>MTK</th><th>IPAS</th><th>SBdP</th><th>PJOK</th><th>B. Ing</th><th>KKA</th><th style="background-color: #e0e7ff !important;">Jml</th><th style="background-color: #c7d2fe !important;">Rata</th></tr></thead><tbody>`;
             students.forEach((student, index) => {
                 let sRes = window.studentResults.filter(r => r.name === student.name && r.kelas === student.kelas);
                 const getScore = (kws) => { let r = sRes.find(x => kws.some(k => x.subject.includes(k))); return r ? r.score : "-"; };
@@ -609,7 +613,7 @@ if(Object.keys(firebaseConfig).length>0){
         window.downloadCSV = function() {
             let fClass = document.getElementById('filter-class').value; let students = Object.values(window.studentDatabase || {}); if(fClass !== 'ALL') students = students.filter(s => s.kelas === fClass);
             if(students.length === 0){ window.showModal("Kosong", "Tidak ada data siswa."); return; } students.sort((a,b) => a.name.localeCompare(b.name));
-            let csv = `\ufeffREKAPITULASI NILAI\n${window.examTitle.toUpperCase()}\nKelas : ${fClass}\n\n"No","NISN","Nama Lengkap","Agama","PKN","B. Ind","MTK","IPAS","SBdP","PJOK","B. Ing","KKA","Jml","Rata","Catatan Sistem"\n`;
+            let csv = `\ufeffREKAPITULASI NILAI ${window.examTitle.toUpperCase()}\nKelas : ${fClass}\n\n"No","NISN","Nama Lengkap","Agama","PKN","B. Ind","MTK","IPAS","SBdP","PJOK","B. Ing","KKA","Jml","Rata","Catatan Sistem"\n`;
             students.forEach((student, index) => {
                 let sRes = window.studentResults.filter(r => r.name === student.name && r.kelas === student.kelas);
                 const getScore = (kws) => { let r = sRes.find(x => kws.some(k => x.subject.includes(k))); return r ? r.score : "-"; };
@@ -656,7 +660,7 @@ if(Object.keys(firebaseConfig).length>0){
             let numQuestions = 0; if (window.questionDatabase && window.questionDatabase[fClass] && window.questionDatabase[fClass][fSubj]) { numQuestions = window.questionDatabase[fClass][fSubj].length; }
             let classResults = window.studentResults.filter(r => r.kelas === fClass && r.subject === fSubj); if (numQuestions === 0) { classResults.forEach(r => { if (r.detail && r.detail.length > numQuestions) numQuestions = r.detail.length; }); }
             if (numQuestions === 0) { window.showModal("Kosong", "Belum ada soal ujian."); return; }
-            let csv = `\ufeffAnalisis Ujian Sumatif Semester Ganjil\nTahun Pelajaran 2026/2027\nMata Pelajaran : ${fSubj}\nKelas : ${fClass}\n\n,,,"BUTIR SOAL"\n"No","NISN","Nama Murid"`; let header3 = `"" ,"" ,""`;
+            let csv = `\ufeffANALISIS ${window.examTitle.toUpperCase()}\nMata Pelajaran : ${fSubj}\nKelas : ${fClass}\n\n,,,"BUTIR SOAL"\n"No","NISN","Nama Murid"`; let header3 = `"" ,"" ,""`;
             for (let i = 1; i <= numQuestions; i++) { csv += `,"${i}"`; header3 += `,"1"`; }
             csv += `,"JUMLAH","Nilai","KETERANGAN"\n` + header3 + `,"","",""\n`;
             students.forEach((student, index) => {
@@ -676,7 +680,7 @@ if(Object.keys(firebaseConfig).length>0){
             if (numQuestions === 0) { window.showModal("Kosong", "Belum ada data soal."); return; }
             let info = window.schoolInfo || {}; let teacherName = ""; let teacherNip = ""; let teacherRole = "Guru Kelas"; let isKhusus = mapelKhusus.includes(fSubj);
             if (isKhusus && info.teachersSubject && info.teachersSubject[fSubj]) { teacherName = info.teachersSubject[fSubj].name; teacherNip = info.teachersSubject[fSubj].nip; teacherRole = "Guru Mata Pelajaran"; } else if (!isKhusus && info.teachersClass && info.teachersClass[fClass]) { teacherName = info.teachersClass[fClass].name; teacherNip = info.teachersClass[fClass].nip; }
-            let html = `<div class="print-container"><style>@page { size: legal landscape; }</style><h2 class="text-center font-bold text-xl uppercase">${window.examTitle}</h2><h3 class="text-center font-bold text-lg mb-4">TAHUN PELAJARAN 2026/2027</h3><div class="flex justify-between mb-2 font-bold text-sm"><div>Mata Pelajaran: ${fSubj}</div><div>Kelas: ${fClass}</div></div><table class="print-table mb-8"><thead><tr><th rowspan="2" style="width: 3%;">No</th><th rowspan="2" style="width: 10%;">NISN</th><th rowspan="2" class="text-left" style="width: 25%;">Nama Murid</th><th colspan="${numQuestions}">BUTIR SOAL</th><th rowspan="2" style="width: 5%;">JUMLAH</th><th rowspan="2" style="width: 5%;">Nilai</th><th rowspan="2" style="width: 10%;">Keterangan</th></tr><tr>${Array.from({length: numQuestions}, (_, i) => `<th style="width: 1%;">${i + 1}<br><span style="font-weight: normal; font-size: 8px;">1</span></th>`).join('')}</tr></thead><tbody>`;
+            let html = `<div class="print-container"><style>@page { size: legal landscape; }</style><h2 class="text-center font-bold text-xl uppercase">ANALISIS ${window.examTitle.toUpperCase()}</h2><div class="flex justify-between mb-2 font-bold text-sm mt-4"><div>Mata Pelajaran: ${fSubj}</div><div>Kelas: ${fClass}</div></div><table class="print-table mb-8"><thead><tr><th rowspan="2" style="width: 3%;">No</th><th rowspan="2" style="width: 10%;">NISN</th><th rowspan="2" class="text-left" style="width: 25%;">Nama Murid</th><th colspan="${numQuestions}">BUTIR SOAL</th><th rowspan="2" style="width: 5%;">JUMLAH</th><th rowspan="2" style="width: 5%;">Nilai</th><th rowspan="2" style="width: 10%;">Keterangan</th></tr><tr>${Array.from({length: numQuestions}, (_, i) => `<th style="width: 1%;">${i + 1}<br><span style="font-weight: normal; font-size: 8px;">1</span></th>`).join('')}</tr></thead><tbody>`;
             students.forEach((student, index) => {
                 let result = classResults.find(r => r.name === student.name); let correctCount = 0; let tds = '';
                 for (let i = 0; i < numQuestions; i++) { let scoreEarned = 0; if (result && result.detail && result.detail[i]) { scoreEarned = result.detail[i].scoreEarned !== undefined ? result.detail[i].scoreEarned : (result.detail[i].isCorrect ? 1 : 0); if(scoreEarned > 0) correctCount++; } tds += `<td>${scoreEarned}</td>`; }
@@ -733,11 +737,38 @@ if(Object.keys(firebaseConfig).length>0){
             if(!questions || questions.length === 0) { window.showModal("Kosong", `Belum ada soal terunggah untuk kelas ${cls} mapel ${sub}.`); return; }
             let html = `<div class="text-left max-h-[60vh] overflow-y-auto pr-2 space-y-4"><h4 class="font-bold border-b pb-2 sticky top-0 bg-white z-10 text-indigo-700">Review: ${sub} (Kelas ${cls}) - ${questions.length} Soal</h4>`;
             questions.forEach((q, i) => {
-                html += `<div class="bg-gray-50 p-3 rounded-lg border"><p class="font-bold text-sm mb-2 text-gray-800">${i+1}. ${q.text}</p><div class="space-y-1 text-xs">`;
-                q.options.forEach((opt, oIdx) => { let isAns = q.answer === oIdx; html += `<div class="${isAns ? 'font-bold text-green-700 bg-green-100 border border-green-200' : 'text-gray-600'} p-2 rounded"><span class="inline-block w-5">${['A','B','C','D','E'][oIdx]}.</span> ${opt} ${isAns ? '<span class="float-right">✅ Kunci</span>' : ''}</div>`; });
+                html += `<div class="bg-gray-50 p-3 rounded-lg border relative"><button onclick="window.openEditDBQuestion('${cls}', '${sub}', ${i})" class="absolute top-2 right-2 text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-700 px-2 py-1 rounded font-bold shadow-sm transition flex items-center gap-1 z-10">✏️ Edit</button><p class="font-bold text-sm mb-2 text-gray-800 pr-12">${i+1}. ${q.text}</p><div class="space-y-1 text-xs">`;
+                (q.options || []).forEach((opt, oIdx) => { let isAns = q.answer === oIdx; html += `<div class="${isAns ? 'font-bold text-green-700 bg-green-100 border border-green-200' : 'text-gray-600'} p-2 rounded"><span class="inline-block w-5">${['A','B','C','D','E'][oIdx]}.</span> ${opt} ${isAns ? '<span class="float-right">✅ Kunci</span>' : ''}</div>`; });
                 html += `</div></div>`;
             }); html += `</div>`; window.showModal("Review Bank Soal", html, false, null, true);
         }
+
+        window.openEditDBQuestion = function(cls, sub, index) {
+            const q = window.questionDatabase[cls][sub][index];
+            document.getElementById('edit-db-cls').value = cls; document.getElementById('edit-db-sub').value = sub; document.getElementById('edit-db-index').value = index;
+            document.getElementById('edit-db-text').value = q.text || '';
+            const dynFields = document.getElementById('edit-db-dynamic-fields'); let html = '';
+            if (q.type === 'PG' || !q.type) {
+                (q.options || []).forEach((opt, idx) => { html += `<div class="flex items-center gap-2"><input type="radio" name="edit-db-pg-ans" value="${idx}" ${q.answer === idx ? 'checked' : ''} class="w-4 h-4 text-indigo-600 cursor-pointer"><input type="text" id="edit-db-opt-${idx}" value="${opt}" class="w-full px-2 py-1 border rounded text-sm focus:border-indigo-500 outline-none"></div>`; });
+            } else if (q.type === 'ISIAN') { html += `<div><label class="block text-xs font-bold text-gray-500 mb-1">Kunci Jawaban</label><input type="text" id="edit-db-isian-ans" value="${q.answer || ''}" class="w-full px-3 py-2 border rounded text-sm focus:border-indigo-500 outline-none"></div>`;
+            } else if (q.type === 'URAIAN') { html += `<div><label class="block text-xs font-bold text-gray-500 mb-1">Kata Kunci (Koma)</label><input type="text" id="edit-db-uraian-ans" value="${(q.answer_keywords || []).join(', ')}" class="w-full px-3 py-2 border rounded text-sm focus:border-indigo-500 outline-none"></div>`;
+            } else if (q.type === 'MENJODOHKAN') { (q.pairs || []).forEach((p, idx) => { html += `<div class="flex gap-2"><input type="text" id="edit-db-mj-l-${idx}" value="${p.left}" class="w-1/2 px-2 py-1 border rounded text-sm" placeholder="Kiri"><input type="text" id="edit-db-mj-r-${idx}" value="${p.right}" class="w-1/2 px-2 py-1 border rounded text-sm" placeholder="Kanan"></div>`; }); }
+            dynFields.innerHTML = html; const modal = document.getElementById('edit-db-modal'); modal.classList.remove('hidden'); setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+        
+        window.closeEditDBModal = function() { const modal = document.getElementById('edit-db-modal'); modal.classList.add('opacity-0'); setTimeout(() => modal.classList.add('hidden'), 300); }
+        
+        window.saveEditDBQuestion = async function() {
+            const cls = document.getElementById('edit-db-cls').value; const sub = document.getElementById('edit-db-sub').value; const index = parseInt(document.getElementById('edit-db-index').value);
+            const q = window.questionDatabase[cls][sub][index]; q.text = document.getElementById('edit-db-text').value;
+            if (q.type === 'PG' || !q.type) { const selectedAns = document.querySelector('input[name="edit-db-pg-ans"]:checked'); if (selectedAns) q.answer = parseInt(selectedAns.value); (q.options || []).forEach((_, idx) => { q.options[idx] = document.getElementById(`edit-db-opt-${idx}`).value; });
+            } else if (q.type === 'ISIAN') { q.answer = document.getElementById('edit-db-isian-ans').value;
+            } else if (q.type === 'URAIAN') { q.answer_keywords = document.getElementById('edit-db-uraian-ans').value.split(',').map(s => s.trim()).filter(s => s);
+            } else if (q.type === 'MENJODOHKAN') { (q.pairs || []).forEach((p, idx) => { q.pairs[idx].left = document.getElementById(`edit-db-mj-l-${idx}`).value; q.pairs[idx].right = document.getElementById(`edit-db-mj-r-${idx}`).value; }); }
+            if(window.saveQuestionData) { await window.saveQuestionData(cls, sub, window.questionDatabase[cls][sub]); }
+            window.closeEditDBModal(); window.previewQuestions();
+        }
+
         window.handleWordUpload = function(e) {
             const file = e.target.files[0]; const clsCheckboxes = document.querySelectorAll('.upload-cls-chk:checked'); const classes = Array.from(clsCheckboxes).map(chk => chk.value); const sub = document.getElementById('upload-subject').value;
             if(!file || classes.length === 0 || !sub) { window.showModal("Stop", "Pilih minimal 1 Kelas dan Mapel!"); e.target.value = ''; return; }
@@ -787,14 +818,15 @@ if(Object.keys(firebaseConfig).length>0){
         window.processAIGeneration = async function() {
             const apiKey = document.getElementById('ai-api-key').value.trim(); 
             if (!apiKey) { window.showModal("API Key Diperlukan", "Masukkan API Key Gemini AI."); return; }
-            if (!apiKey.startsWith("AIza") && !apiKey.startsWith("AQ.")) { window.showModal("API Key Salah Format", "API Key Gemini seharusnya berawalan <b>AIza...</b> atau <b>AQ...</b>. Pastikan Anda menyalin API Key yang benar dari Google AI Studio."); return; }
-
+            
             const mapel = document.getElementById('ai-mapel').value; const kelasLabel = document.getElementById('ai-kelas').value; const materi = document.getElementById('ai-materi').value.trim(); const cp = document.getElementById('ai-cp').value.trim(); const kesulitan = document.getElementById('ai-kesulitan').value;
             if(!materi || !cp) { window.showModal("Data Kosong", "Isi Materi Pokok dan Tujuan (CP/TP)."); return; }
             const pgChecked = document.getElementById('ai-chk-pg').checked; const jmlPg = parseInt(document.getElementById('ai-jml-pg').value) || 0; const bobotPg = parseInt(document.getElementById('ai-bobot-pg').value) || 1;
             const isianChecked = document.getElementById('ai-chk-isian').checked; const jmlIsian = parseInt(document.getElementById('ai-jml-isian').value) || 0; const bobotIsian = parseInt(document.getElementById('ai-bobot-isian').value) || 2;
             const uraianChecked = document.getElementById('ai-chk-uraian').checked; const jmlUraian = parseInt(document.getElementById('ai-jml-uraian').value) || 0; const bobotUraian = parseInt(document.getElementById('ai-bobot-uraian').value) || 5;
             const menjodohkanChecked = document.getElementById('ai-chk-menjodohkan').checked; const jmlMenjodohkan = parseInt(document.getElementById('ai-jml-menjodohkan').value) || 0; const bobotMenjodohkan = parseInt(document.getElementById('ai-bobot-menjodohkan').value) || 4;
+            const gambarChecked = document.getElementById('ai-chk-gambar') ? document.getElementById('ai-chk-gambar').checked : false; const jmlGambar = document.getElementById('ai-jml-gambar') ? (parseInt(document.getElementById('ai-jml-gambar').value) || 0) : 0;
+            
             if(!pgChecked && !isianChecked && !uraianChecked && !menjodohkanChecked) { window.showModal("Gagal", "Anda harus mencentang minimal 1 jenis soal!"); return; }
             let formatInstruksi = [];
             if(pgChecked && jmlPg > 0) formatInstruksi.push(`- ${jmlPg} soal Pilihan Ganda (PG). Format JSON: {"type": "PG", "text": "...", "options": ["A","B","C","D"], "answer": 0, "bobot": ${bobotPg}, "indikator": "...", "level_kognitif": "...", "pembahasan": "..."}`);
@@ -802,6 +834,11 @@ if(Object.keys(firebaseConfig).length>0){
             if(uraianChecked && jmlUraian > 0) formatInstruksi.push(`- ${jmlUraian} soal Uraian Panjang. Format JSON: {"type": "URAIAN", "text": "...", "answer_keywords": ["kunci1", "kunci2", "kunci3"], "bobot": ${bobotUraian}, "indikator": "...", "level_kognitif": "...", "pembahasan": "..."}`);
             if(menjodohkanChecked && jmlMenjodohkan > 0) formatInstruksi.push(`- ${jmlMenjodohkan} soal Menjodohkan (4 pasangan). Format JSON: {"type": "MENJODOHKAN", "text": "Pasangkan dengan benar!", "pairs": [{"left":"Pernyataan A", "right":"Jawaban A"}, {"left":"...", "right":"..."}], "bobot": ${bobotMenjodohkan}, "indikator": "...", "level_kognitif": "...", "pembahasan": "..."}`);
             
+            let gambarInstruksi = "";
+            if(gambarChecked && jmlGambar > 0) { 
+                gambarInstruksi = `\n3. WAJIB BUAT TEPAT ${jmlGambar} SOAL BERGAMBAR. Untuk soal bergambar, sisipkan tag [GAMBAR: tuliskan deskripsi visual gambar dengan sangat detail] di dalam teks stimulus soal.`; 
+            }
+
             document.getElementById('ai-form-container').classList.add('hidden'); document.getElementById('ai-result-container').classList.add('hidden'); document.getElementById('ai-loading-container').classList.remove('hidden'); document.getElementById('ai-loading-container').classList.add('flex');
             
             const promptText = `Anda adalah guru pembuat soal Kurikulum Merdeka.
@@ -809,14 +846,13 @@ TUGAS: Buat set soal SD ${kelasLabel} | Mapel: ${mapel} | Materi: ${materi} | CP
 KAIDAH PENULISAN WAJIB:
 1. WAJIB berikan stimulus (cerita pendek, tabel, kasus kontekstual) di setiap soal.
 2. DILARANG KERAS menggunakan opsi "Semua jawaban benar" atau "Semua jawaban salah".
-3. TULIS DENGAN EFISIEN DAN KILAT. Buat stimulus yang padat dan jelas agar ukuran file ringan dan proses generasi sangat cepat.
+3. TULIS DENGAN EFISIEN DAN KILAT. Buat stimulus yang padat dan jelas agar ukuran file ringan dan proses generasi sangat cepat.${gambarInstruksi}
 OUTPUT HARUS JSON ARRAY MURNI ([...]) TANPA TEKS LAIN. FORMAT:
 ${formatInstruksi.join('\n')}`;
 
             try {
-                // DIKUNCI LANGSUNG KE VERSI YANG DIMINTA
-                const model = 'gemini-3.8-flash';
-                
+                // DIKEMBALIKAN KE GEMINI-3.8-FLASH SESUAI SCREENSHOT
+                const model = 'gemini-3.8-flash'; 
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }], generationConfig: { temperature: 0.7, topP: 0.95 } }) }); 
                 
                 if (!response.ok) {
@@ -874,7 +910,7 @@ ${formatInstruksi.join('\n')}`;
 
         window.downloadKisiKisiCSV = function() {
             const mapel = document.getElementById('ai-mapel').value; const kelas = document.getElementById('ai-kelas').value; const materi = document.getElementById('ai-materi').value; const cp = document.getElementById('ai-cp').value;
-            let csvContent = "\ufeffKISI-KISI PENULISAN SOAL\n\n"; csvContent += `Mata Pelajaran,${mapel}\nKelas/Fase,${kelas}\nTahun Pelajaran,2026/2027\n\n`;
+            let csvContent = `\ufeffKISI-KISI ${window.examTitle.toUpperCase()}\n\n`; csvContent += `Mata Pelajaran,${mapel}\nKelas/Fase,${kelas}\n\n`;
             csvContent += `"No","Capaian Pembelajaran","Materi","Indikator Soal","Level Kognitif","Bentuk Soal","No. Soal"\n`;
             window.currentAIGeneratedQuestions.forEach((q, i) => {
                 let bentuk = q.type || 'PG'; let indikator = q.indikator || `Siswa dapat menyelesaikan persoalan terkait materi tersebut.`; let level = q.level_kognitif || "-";
@@ -893,7 +929,7 @@ ${formatInstruksi.join('\n')}`;
             if (isKhusus && info.teachersSubject && info.teachersSubject[mapel]) { teacherName = info.teachersSubject[mapel].name; teacherNip = info.teachersSubject[mapel].nip; }
             let tgl = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
             
-            let html = `<div class="print-container"><style>@page { size: legal landscape; }</style><h2 class="text-center font-bold text-xl uppercase">KISI-KISI PENULISAN SOAL</h2><h3 class="text-center font-bold text-lg mb-4">TAHUN PELAJARAN 2026/2027</h3><div class="flex justify-between mb-2 font-bold text-sm"><div>Mata Pelajaran: ${mapel}</div><div>Kelas/Fase: ${kelas}</div></div>`;
+            let html = `<div class="print-container"><style>@page { size: legal landscape; }</style><h2 class="text-center font-bold text-xl uppercase">KISI-KISI ${window.examTitle.toUpperCase()}</h2><div class="flex justify-between mb-2 font-bold text-sm mt-4"><div>Mata Pelajaran: ${mapel}</div><div>Kelas/Fase: ${kelas}</div></div>`;
             html += `<table class="print-table mb-8"><thead><tr><th style="width: 3%;">No</th><th style="width: 25%;">Capaian Pembelajaran (CP)</th><th style="width: 15%;">Materi Pokok</th><th style="width: 30%;">Indikator Soal</th><th style="width: 10%;">Level Kognitif</th><th style="width: 10%;">Bentuk Soal</th><th style="width: 7%;">No. Soal</th></tr></thead><tbody>`;
             
             window.currentAIGeneratedQuestions.forEach((q, i) => {
@@ -932,6 +968,7 @@ ${formatInstruksi.join('\n')}`;
 
         // Initialize Forms
         window.renderSchoolForms();
+        document.getElementById('ai-api-key').value = localStorage.getItem('gemini_api_key') || '';
     </script>
 </body>
 </html>
