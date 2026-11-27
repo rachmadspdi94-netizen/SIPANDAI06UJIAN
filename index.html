@@ -519,7 +519,31 @@ if(Object.keys(firebaseConfig).length>0){
     <div id="edit-student-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm"><div class="bg-white rounded-2xl p-6 w-11/12 max-w-sm shadow-2xl"><h3 class="text-xl font-bold mb-4 text-gray-800 border-b pb-2">Edit Data Siswa</h3><div class="space-y-4"><div><label class="block text-xs font-bold text-gray-500 mb-1">NISN (Tidak dapat diubah)</label><input type="text" id="edit-nisn" readonly class="w-full px-3 py-2 border rounded-lg text-sm bg-gray-100 text-gray-500 font-mono"></div><div><label class="block text-xs font-bold text-gray-500 mb-1">Nama Lengkap</label><input type="text" id="edit-name" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"></div><div><label class="block text-xs font-bold text-gray-500 mb-1">Kelas</label><select id="edit-class" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"><option value="IA">IA</option><option value="IB">IB</option><option value="II">II</option><option value="IIIA">IIIA</option><option value="IIIB">IIIB</option><option value="IIIC">IIIC</option><option value="IVA">IVA</option><option value="IVB">IVB</option><option value="VA">VA</option><option value="VB">VB</option><option value="VC">VC</option><option value="VIA">VIA</option><option value="VIB">VIB</option><option value="VIC">VIC</option></select></div></div><div class="flex justify-end gap-3 mt-6"><button class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-bold text-sm transition" onclick="window.closeEditModal()">Batal</button><button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-sm shadow transition" onclick="window.saveEditStudent()">Simpan Perubahan</button></div></div></div>
     
     <!-- Edit AI Modal -->
-    <div id="edit-ai-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm"><div class="bg-white rounded-2xl p-6 w-11/12 max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto"><h3 class="text-xl font-bold mb-4 text-gray-800 border-b pb-2">Edit Soal AI</h3><input type="hidden" id="edit-ai-index"><div class="space-y-4"><div><label class="block text-xs font-bold text-gray-500 mb-1">Pertanyaan</label><textarea id="edit-ai-text" rows="3" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"></textarea></div><div id="edit-ai-dynamic-fields" class="space-y-3"></div><div><label class="block text-xs font-bold text-gray-500 mb-1">Pembahasan</label><textarea id="edit-ai-pembahasan" rows="2" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"></textarea></div></div><div class="flex justify-end gap-3 mt-6"><button class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-bold text-sm transition" onclick="window.closeEditAIModal()">Batal</button><button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-sm shadow transition" onclick="window.saveEditAIQuestion()">Simpan Perubahan</button></div></div></div>
+    <div id="edit-ai-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 w-11/12 max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
+            <h3 class="text-xl font-bold mb-4 text-gray-800 border-b pb-2">Edit Soal AI</h3>
+            <input type="hidden" id="edit-ai-index">
+            <div class="space-y-4">
+                <div><label class="block text-xs font-bold text-gray-500 mb-1">Pertanyaan</label><textarea id="edit-ai-text" rows="3" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"></textarea></div>
+                <div id="edit-ai-dynamic-fields" class="space-y-3"></div>
+                <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl p-3 space-y-2">
+                    <div class="text-xs font-bold text-emerald-800">📋 Detail Kisi-kisi Butir Soal Ini</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div><label class="block text-[11px] font-bold text-gray-600 mb-0.5">Elemen</label><input type="text" id="edit-ai-elemen" class="w-full px-2.5 py-1.5 border rounded-lg text-xs bg-white" placeholder="Contoh: Membaca & Memirsa"></div>
+                        <div><label class="block text-[11px] font-bold text-gray-600 mb-0.5">Materi Pokok (Per Soal)</label><input type="text" id="edit-ai-materi" class="w-full px-2.5 py-1.5 border rounded-lg text-xs bg-white" placeholder="Sub-materi soal ini..."></div>
+                        <div><label class="block text-[11px] font-bold text-gray-600 mb-0.5">Level Kognitif</label><input type="text" id="edit-ai-level" class="w-full px-2.5 py-1.5 border rounded-lg text-xs bg-white" placeholder="C1 / C2 / C3 / C4"></div>
+                    </div>
+                    <div><label class="block text-[11px] font-bold text-gray-600 mb-0.5">Capaian Pembelajaran (CP/TP) Spesifik</label><input type="text" id="edit-ai-cp" class="w-full px-2.5 py-1.5 border rounded-lg text-xs bg-white" placeholder="Rumusan CP/TP spesifik untuk soal ini..."></div>
+                    <div><label class="block text-[11px] font-bold text-gray-600 mb-0.5">Indikator Soal</label><input type="text" id="edit-ai-indikator" class="w-full px-2.5 py-1.5 border rounded-lg text-xs bg-white" placeholder="Disajikan ..., siswa dapat ..."></div>
+                </div>
+                <div><label class="block text-xs font-bold text-gray-500 mb-1">Pembahasan</label><textarea id="edit-ai-pembahasan" rows="2" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"></textarea></div>
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-bold text-sm transition" onclick="window.closeEditAIModal()">Batal</button>
+                <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-sm shadow transition" onclick="window.saveEditAIQuestion()">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Edit Database Modal -->
     <div id="edit-db-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm">
@@ -553,6 +577,16 @@ if(Object.keys(firebaseConfig).length>0){
                     <textarea id="edit-db-text" rows="3" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500" placeholder="Ketik pertanyaan soal di sini..."></textarea>
                 </div>
                 <div id="edit-db-dynamic-fields" class="space-y-3"></div>
+                <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-3 space-y-2">
+                    <div class="text-xs font-bold text-blue-800">📋 Detail Kisi-kisi Butir Soal Ini (Opsional)</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div><label class="block text-[11px] font-bold text-gray-600 mb-0.5">Elemen</label><input type="text" id="edit-db-elemen" class="w-full px-2.5 py-1.5 border rounded-lg text-xs bg-white" placeholder="Contoh: Bilangan / Pancasila"></div>
+                        <div><label class="block text-[11px] font-bold text-gray-600 mb-0.5">Materi Pokok (Per Soal)</label><input type="text" id="edit-db-materi" class="w-full px-2.5 py-1.5 border rounded-lg text-xs bg-white" placeholder="Sub-materi soal ini..."></div>
+                        <div><label class="block text-[11px] font-bold text-gray-600 mb-0.5">Level Kognitif</label><input type="text" id="edit-db-level" class="w-full px-2.5 py-1.5 border rounded-lg text-xs bg-white" placeholder="C1 / C2 / C3 / C4"></div>
+                    </div>
+                    <div><label class="block text-[11px] font-bold text-gray-600 mb-0.5">Capaian Pembelajaran (CP/TP) Spesifik</label><input type="text" id="edit-db-cp" class="w-full px-2.5 py-1.5 border rounded-lg text-xs bg-white" placeholder="Rumusan CP/TP spesifik untuk soal ini..."></div>
+                    <div><label class="block text-[11px] font-bold text-gray-600 mb-0.5">Indikator Soal</label><input type="text" id="edit-db-indikator" class="w-full px-2.5 py-1.5 border rounded-lg text-xs bg-white" placeholder="Disajikan ..., peserta didik dapat ..."></div>
+                </div>
             </div>
             <div class="flex justify-end gap-3 mt-6">
                 <button type="button" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-bold text-sm transition" onclick="window.closeEditDBModal()">Batal</button>
@@ -1488,11 +1522,11 @@ if(Object.keys(firebaseConfig).length>0){
         window.downloadBankKisiCSV = function(clsParam = null, subParam = null) {
             const target = window.getSelectedBankTarget(clsParam, subParam); if(!target) return;
             const { cls, sub, questions, meta } = target;
-            const materi = meta.materi || '-'; const cp = meta.cp || '-'; const kelasLabel = meta.kelasLabel || `Kelas ${cls}`;
-            let csvContent = `\ufeffKISI-KISI ${window.examTitle.toUpperCase()}\n\nMata Pelajaran,${sub}\nKelas/Fase,${kelasLabel}\n\n"No","Capaian Pembelajaran","Materi","Indikator Soal","Level Kognitif","Bentuk Soal","No. Soal"\n`;
+            const kelasLabel = meta.kelasLabel || `Kelas ${cls}`;
+            let csvContent = `\ufeffKISI-KISI ${window.examTitle.toUpperCase()}\n\nMata Pelajaran,${sub}\nKelas/Fase,${kelasLabel}\n\n"No","Elemen","Capaian Pembelajaran (CP/TP)","Materi Pokok","Indikator Soal","Level Kognitif","Bentuk Soal","No. Soal"\n`;
             questions.forEach((q, i) => {
-                let bentuk = q.type || 'PG'; let indikator = (q.indikator || `Siswa dapat menyelesaikan persoalan terkait materi ${sub}.`).replace(/"/g, '""'); let level = q.level_kognitif || '-';
-                csvContent += `"${i+1}","${cp.replace(/"/g, '""')}","${materi.replace(/"/g, '""')}","${indikator}","${level}","${bentuk}","${i+1}"\n`;
+                const row = window.resolveKisiRow(q, i, sub, meta, kelasLabel);
+                csvContent += `"${i+1}","${row.elemen.replace(/"/g, '""')}","${row.cp.replace(/"/g, '""')}","${row.materi.replace(/"/g, '""')}","${row.indikator.replace(/"/g, '""')}","${row.level.replace(/"/g, '""')}","${row.bentuk}","${i+1}"\n`;
             });
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
@@ -1506,7 +1540,7 @@ if(Object.keys(firebaseConfig).length>0){
         window.printBankKisiPDF = function(clsParam = null, subParam = null) {
             const target = window.getSelectedBankTarget(clsParam, subParam); if(!target) return;
             const { cls, sub, questions, meta } = target;
-            const materi = meta.materi || '-'; const cp = meta.cp || '-'; const kelasLabel = meta.kelasLabel || `Kelas ${cls}`;
+            const kelasLabel = meta.kelasLabel || `Kelas ${cls}`;
             let info = window.schoolInfo || {};
             let t = (info.teachersClass || {})[cls] || {};
             let teacherName = t.name || "....................................."; let teacherNip = t.nip || "..........................";
@@ -1514,13 +1548,37 @@ if(Object.keys(firebaseConfig).length>0){
             if (isKhusus && info.teachersSubject && info.teachersSubject[sub]) { teacherName = info.teachersSubject[sub].name || teacherName; teacherNip = info.teachersSubject[sub].nip || teacherNip; }
             let tgl = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
             let html = `<div class="print-container"><style>@page { size: legal landscape; }</style><h2 class="text-center font-bold text-xl uppercase">KISI-KISI ${window.examTitle.toUpperCase()}</h2><div class="flex justify-between mb-2 font-bold text-sm mt-4"><div>Mata Pelajaran: ${sub}</div><div>Kelas/Fase: ${kelasLabel}</div></div>`;
-            html += `<table class="print-table mb-8"><thead><tr><th style="width: 3%;">No</th><th style="width: 25%;">Capaian Pembelajaran (CP)</th><th style="width: 15%;">Materi Pokok</th><th style="width: 30%;">Indikator Soal</th><th style="width: 10%;">Level Kognitif</th><th style="width: 10%;">Bentuk Soal</th><th style="width: 7%;">No. Soal</th></tr></thead><tbody>`;
+            html += `<table class="print-table mb-8"><thead><tr><th style="width: 3%;">No</th><th style="width: 12%;">Elemen</th><th style="width: 24%;">Capaian Pembelajaran (CP/TP)</th><th style="width: 14%;">Materi Pokok</th><th style="width: 28%;">Indikator Soal</th><th style="width: 7%;">Level</th><th style="width: 7%;">Bentuk</th><th style="width: 5%;">No. Soal</th></tr></thead><tbody>`;
             questions.forEach((q, i) => {
-                let bentuk = q.type || 'PG'; let indikator = q.indikator || `Siswa dapat menyelesaikan persoalan terkait materi ${sub}.`; let level = q.level_kognitif || "-";
-                html += `<tr><td>${i+1}</td><td class="text-left">${cp}</td><td class="text-left">${materi}</td><td class="text-left">${indikator}</td><td>${level}</td><td>${bentuk}</td><td style="font-weight:bold;">${i+1}</td></tr>`;
+                const row = window.resolveKisiRow(q, i, sub, meta, kelasLabel);
+                html += `<tr><td>${i+1}</td><td class="text-left">${row.elemen}</td><td class="text-left">${row.cp}</td><td class="text-left">${row.materi}</td><td class="text-left">${row.indikator}</td><td>${row.level}</td><td>${row.bentuk}</td><td style="font-weight:bold;">${i+1}</td></tr>`;
             });
             html += `</tbody></table><div class="flex justify-between px-10 text-sm mt-10"><div class="text-center"><p>Mengetahui,</p><p class="font-bold">Kepala ${info.schoolName || 'Satuan Pendidikan'}</p><br><br><br><br><p class="font-bold underline">${info.kepsekName || '.....................................'}</p><p>NIP. ${info.kepsekNip || '..........................'}</p></div><div class="text-center"><p>Manado, ${tgl}</p><p class="font-bold">Guru Penyusun Soal</p><br><br><br><br><p class="font-bold underline">${teacherName}</p><p>NIP. ${teacherNip}</p></div></div></div>`;
             document.getElementById('print-area').innerHTML = html; window.print();
+        }
+
+        window.resolveKisiRow = function(q, idx, sub, meta = {}, kelasLabel = '') {
+            const defaultElemenMap = {
+                "Pendidikan Agama Islam & Budi Pekerti": "Al-Qur'an Hadis / Akidah Akhlak / Fikih",
+                "Pendidikan Agama Kristen & Budi Pekerti": "Allah Berkarya / Nilai-nilai Kristiani",
+                "Pendidikan Pancasila": "Pancasila / UUD NRI 1945 / Bhinneka Tunggal Ika",
+                "Bahasa Indonesia": "Membaca dan Memirsa / Menulis",
+                "Matematika": "Bilangan / Aljabar / Pengukuran / Geometri",
+                "IPAS": "Pemahaman IPAS (Sains dan Sosial)",
+                "Seni Musik/Rupa": "Mengalami / Menciptakan / Merefleksikan",
+                "PJOK": "Terampil Bergerak / Belajar Melalui Gerak",
+                "Bahasa Inggris": "Reading-Viewing / Writing-Presenting",
+                "KKA (Koding dn Kecerdasan Artifisial)": "Berpikir Komputasional / Literasi Digital & AI"
+            };
+            const cleanQText = (q.text || '').replace(/<[^>]*>/g, ' ').replace(/\[GAMBAR:.*?\]/gi, '').replace(/\s+/g, ' ').trim();
+            const shortSnippet = cleanQText.length > 65 ? cleanQText.slice(0, 65) + '...' : cleanQText;
+            const elemen = (q.elemen && q.elemen.trim()) ? q.elemen.trim() : (defaultElemenMap[sub] || `Pemahaman ${sub}`);
+            const materi = (q.materi && q.materi.trim()) ? q.materi.trim() : ((meta && meta.materi && meta.materi.trim()) ? meta.materi.trim() : `${sub} (Topik Soal No. ${idx + 1})`);
+            const cp = (q.cp && q.cp.trim()) ? q.cp.trim() : ((meta && meta.cp && meta.cp.trim()) ? meta.cp.trim() : `Peserta didik mampu memahami dan menerapkan konsep ${materi} pada mata pelajaran ${sub} ${kelasLabel ? '(' + kelasLabel + ')' : ''}.`);
+            const indikator = (q.indikator && q.indikator.trim()) ? q.indikator.trim() : (shortSnippet ? `Disajikan stimulus/pertanyaan terkait "${shortSnippet}", peserta didik dapat menentukan jawaban yang tepat.` : `Peserta didik dapat menyelesaikan persoalan terkait materi ${materi}.`);
+            const level = (q.level_kognitif && q.level_kognitif.trim()) ? q.level_kognitif.trim() : 'C2';
+            const bentuk = q.type || 'PG';
+            return { elemen, cp, materi, indikator, level, bentuk };
         }
 
         window.previewQuestions = function(clsParam = null, subParam = null) {
@@ -1661,6 +1719,11 @@ if(Object.keys(firebaseConfig).length>0){
             document.getElementById('edit-db-type').disabled = false;
             document.getElementById('edit-db-bobot').value = 1;
             document.getElementById('edit-db-text').value = '';
+            if (document.getElementById('edit-db-elemen')) document.getElementById('edit-db-elemen').value = '';
+            if (document.getElementById('edit-db-materi')) document.getElementById('edit-db-materi').value = '';
+            if (document.getElementById('edit-db-level')) document.getElementById('edit-db-level').value = 'C2';
+            if (document.getElementById('edit-db-cp')) document.getElementById('edit-db-cp').value = '';
+            if (document.getElementById('edit-db-indikator')) document.getElementById('edit-db-indikator').value = '';
             window.currentEditDBImageSrc = null;
             window.renderEditDBImagePreview();
             window.renderEditDBDynamicFields('PG', null);
@@ -1682,6 +1745,13 @@ if(Object.keys(firebaseConfig).length>0){
             window.currentEditDBImageSrc = imgMatch ? imgMatch[1] : null;
             let cleanText = rawText.replace(/<(?:div|p)[^>]*>\s*<img[^>]*>\s*<\/(?:div|p)>/gi, '').replace(/<img[^>]*>/gi, '').trim();
             document.getElementById('edit-db-text').value = cleanText;
+            const meta = ((window.questionMeta || {})[cls] || {})[sub] || {};
+            const kisi = window.resolveKisiRow(q, index, sub, meta, `Kelas ${cls}`);
+            if (document.getElementById('edit-db-elemen')) document.getElementById('edit-db-elemen').value = q.elemen || kisi.elemen;
+            if (document.getElementById('edit-db-materi')) document.getElementById('edit-db-materi').value = q.materi || kisi.materi;
+            if (document.getElementById('edit-db-level')) document.getElementById('edit-db-level').value = q.level_kognitif || kisi.level;
+            if (document.getElementById('edit-db-cp')) document.getElementById('edit-db-cp').value = q.cp || kisi.cp;
+            if (document.getElementById('edit-db-indikator')) document.getElementById('edit-db-indikator').value = q.indikator || kisi.indikator;
             window.renderEditDBImagePreview();
             window.renderEditDBDynamicFields(qType, q);
             const modal = document.getElementById('edit-db-modal'); modal.classList.remove('hidden'); setTimeout(() => modal.classList.remove('opacity-0'), 10);
@@ -1713,6 +1783,11 @@ if(Object.keys(firebaseConfig).length>0){
             const list = window.questionDatabase[cls][sub];
             const isAdd = (index === -1);
             const qObj = isAdd ? { id: list.length + 1, type, text: newText, bobot } : Object.assign({}, list[index], { type, text: newText, bobot });
+            if (document.getElementById('edit-db-elemen')) qObj.elemen = document.getElementById('edit-db-elemen').value.trim();
+            if (document.getElementById('edit-db-materi')) qObj.materi = document.getElementById('edit-db-materi').value.trim();
+            if (document.getElementById('edit-db-level')) qObj.level_kognitif = document.getElementById('edit-db-level').value.trim();
+            if (document.getElementById('edit-db-cp')) qObj.cp = document.getElementById('edit-db-cp').value.trim();
+            if (document.getElementById('edit-db-indikator')) qObj.indikator = document.getElementById('edit-db-indikator').value.trim();
 
             if (type === 'PG') {
                 const opts = [];
@@ -2065,24 +2140,25 @@ if(Object.keys(firebaseConfig).length>0){
             
             if(!pgChecked && !isianChecked && !uraianChecked && !menjodohkanChecked) { window.showModal("Gagal", "Anda harus mencentang minimal 1 jenis soal!"); return; }
             let formatInstruksi = [];
-            if(pgChecked && jmlPg > 0) formatInstruksi.push(`- ${jmlPg} soal Pilihan Ganda (PG). Format JSON: {"type": "PG", "text": "...", "options": ["A","B","C","D"], "answer": 0, "bobot": ${bobotPg}, "indikator": "...", "level_kognitif": "...", "pembahasan": "..."}`);
-            if(isianChecked && jmlIsian > 0) formatInstruksi.push(`- ${jmlIsian} soal Isian Singkat. Format JSON: {"type": "ISIAN", "text": "...", "answer": "KATA KUNCI JAWABAN", "bobot": ${bobotIsian}, "indikator": "...", "level_kognitif": "...", "pembahasan": "..."}`);
-            if(uraianChecked && jmlUraian > 0) formatInstruksi.push(`- ${jmlUraian} soal Uraian Panjang. Format JSON: {"type": "URAIAN", "text": "...", "answer_keywords": ["kunci1", "kunci2", "kunci3"], "bobot": ${bobotUraian}, "indikator": "...", "level_kognitif": "...", "pembahasan": "..."}`);
-            if(menjodohkanChecked && jmlMenjodohkan > 0) formatInstruksi.push(`- ${jmlMenjodohkan} soal Menjodohkan (4 pasangan). Format JSON: {"type": "MENJODOHKAN", "text": "Pasangkan dengan benar!", "pairs": [{"left":"Pernyataan A", "right":"Jawaban A"}, {"left":"...", "right":"..."}], "bobot": ${bobotMenjodohkan}, "indikator": "...", "level_kognitif": "...", "pembahasan": "..."}`);
+            if(pgChecked && jmlPg > 0) formatInstruksi.push(`- ${jmlPg} soal Pilihan Ganda (PG). Format JSON: {"type": "PG", "text": "...", "options": ["A","B","C","D"], "answer": 0, "bobot": ${bobotPg}, "elemen": "Elemen Kurikulum Merdeka spesifik soal ini", "cp": "Rumusan CP/TP spesifik soal ini", "materi": "Sub-materi spesifik soal ini", "indikator": "...", "level_kognitif": "C1/C2/C3/C4", "pembahasan": "..."}`);
+            if(isianChecked && jmlIsian > 0) formatInstruksi.push(`- ${jmlIsian} soal Isian Singkat. Format JSON: {"type": "ISIAN", "text": "...", "answer": "KATA KUNCI JAWABAN", "bobot": ${bobotIsian}, "elemen": "Elemen Kurikulum Merdeka spesifik soal ini", "cp": "Rumusan CP/TP spesifik soal ini", "materi": "Sub-materi spesifik soal ini", "indikator": "...", "level_kognitif": "C1/C2/C3/C4", "pembahasan": "..."}`);
+            if(uraianChecked && jmlUraian > 0) formatInstruksi.push(`- ${jmlUraian} soal Uraian Panjang. Format JSON: {"type": "URAIAN", "text": "...", "answer_keywords": ["kunci1", "kunci2", "kunci3"], "bobot": ${bobotUraian}, "elemen": "Elemen Kurikulum Merdeka spesifik soal ini", "cp": "Rumusan CP/TP spesifik soal ini", "materi": "Sub-materi spesifik soal ini", "indikator": "...", "level_kognitif": "C3/C4/C5", "pembahasan": "..."}`);
+            if(menjodohkanChecked && jmlMenjodohkan > 0) formatInstruksi.push(`- ${jmlMenjodohkan} soal Menjodohkan (4 pasangan). Format JSON: {"type": "MENJODOHKAN", "text": "Pasangkan dengan benar!", "pairs": [{"left":"Pernyataan A", "right":"Jawaban A"}, {"left":"...", "right":"..."}], "bobot": ${bobotMenjodohkan}, "elemen": "Elemen Kurikulum Merdeka spesifik soal ini", "cp": "Rumusan CP/TP spesifik soal ini", "materi": "Sub-materi spesifik soal ini", "indikator": "...", "level_kognitif": "C2/C3", "pembahasan": "..."}`);
             
             let gambarInstruksi = "";
             if(gambarChecked && jmlGambar > 0) { 
-                gambarInstruksi = `\n3. WAJIB BUAT TEPAT ${jmlGambar} SOAL BERGAMBAR. Untuk soal bergambar, sisipkan tag [GAMBAR: tuliskan deskripsi visual gambar dengan sangat detail] di dalam teks stimulus soal.`; 
+                gambarInstruksi = `\n5. WAJIB BUAT TEPAT ${jmlGambar} SOAL BERGAMBAR. Untuk soal bergambar, sisipkan tag [GAMBAR: tuliskan deskripsi visual gambar dengan sangat detail] di dalam teks stimulus soal.`; 
             }
 
             document.getElementById('ai-form-container').classList.add('hidden'); document.getElementById('ai-result-container').classList.add('hidden'); document.getElementById('ai-loading-container').classList.remove('hidden'); document.getElementById('ai-loading-container').classList.add('flex');
             
             const promptText = `Anda adalah guru pembuat soal Kurikulum Merdeka.
-TUGAS: Buat set soal SD ${kelasLabel} | Mapel: ${mapel} | Materi: ${materi} | CP/TP: ${cp} | Kesulitan: ${kesulitan}.
+TUGAS: Buat set soal SD ${kelasLabel} | Mapel: ${mapel} | Materi Utama: ${materi} | Referensi CP/TP: ${cp} | Kesulitan: ${kesulitan}.
 KAIDAH PENULISAN WAJIB:
 1. WAJIB berikan stimulus (cerita pendek, tabel, kasus kontekstual) di setiap soal.
 2. DILARANG KERAS menggunakan opsi "Semua jawaban benar" atau "Semua jawaban salah".
-3. TULIS DENGAN EFISIEN DAN KILAT. Buat stimulus yang padat dan jelas agar ukuran file ringan dan proses generasi sangat cepat.${gambarInstruksi}
+3. TULIS DENGAN EFISIEN DAN KILAT. Buat stimulus yang padat dan jelas agar ukuran file ringan dan proses generasi sangat cepat.
+4. WAJIB RINCI KISI-KISI PER BUTIR SOAL: Untuk setiap nomor soal, rincikan field "elemen" (Elemen resmi Kurikulum Merdeka sesuai mapel), "cp" (uraian CP/TP spesifik yang diukur pada soal tersebut), dan "materi" (sub-materi spesifik yang dibahas pada soal tersebut). DILARANG menyamaratakan teks CP/Materi yang sama persis untuk semua nomor soal.${gambarInstruksi}
 OUTPUT HARUS JSON ARRAY MURNI ([...]) TANPA TEKS LAIN. FORMAT:
 ${formatInstruksi.join('\n')}`;
 
@@ -2134,13 +2210,23 @@ ${formatInstruksi.join('\n')}`;
                 } else if (q.type === 'ISIAN') { html += `<div class="p-3 bg-white border border-gray-200 rounded font-medium text-emerald-700">Kunci Jawaban Tepat: <span class="font-black bg-emerald-100 px-2 py-1 rounded">${q.answer}</span></div>`;
                 } else if (q.type === 'URAIAN') { html += `<div class="p-3 bg-white border border-gray-200 rounded font-medium">Kata kunci penilaian AI: <br><div class="mt-2 flex flex-wrap gap-2">`; (q.answer_keywords || []).forEach(kw => { html += `<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded font-bold">${kw}</span>`; }); html += `</div></div>`;
                 } else if (q.type === 'MENJODOHKAN') { html += `<div class="grid grid-cols-2 gap-2 font-medium">`; (q.pairs || []).forEach(p => { html += `<div class="bg-white p-2 border rounded shadow-sm">${p.left}</div> <div class="bg-emerald-50 text-emerald-700 p-2 border border-emerald-200 rounded shadow-sm text-center">🔄 ${p.right}</div>`; }); html += `</div>`; }
-                html += `</div>`; if(q.pembahasan) html += `<div class="mt-3 p-3 bg-yellow-50 text-yellow-800 border border-yellow-200 rounded-lg text-xs leading-relaxed"><b>💡 Pembahasan AI:</b> ${q.pembahasan}</div>`; html += `</div>`; list.innerHTML += html;
+                html += `</div>`;
+                const kisiPreview = window.resolveKisiRow(q, i, mapel, { materi: document.getElementById('ai-materi').value.trim(), cp: document.getElementById('ai-cp').value.trim() }, kelas);
+                html += `<div class="mt-3 p-2.5 bg-indigo-50/70 text-indigo-900 border border-indigo-200 rounded-lg text-[11px] leading-relaxed flex flex-wrap gap-x-4 gap-y-1"><span><b>Elemen:</b> ${kisiPreview.elemen}</span><span><b>Materi:</b> ${kisiPreview.materi}</span><span><b>Level:</b> ${kisiPreview.level}</span><div class="w-full"><b>CP/TP:</b> ${kisiPreview.cp}</div></div>`;
+                if(q.pembahasan) html += `<div class="mt-2 p-3 bg-yellow-50 text-yellow-800 border border-yellow-200 rounded-lg text-xs leading-relaxed"><b>💡 Pembahasan AI:</b> ${q.pembahasan}</div>`; html += `</div>`; list.innerHTML += html;
             });
             document.getElementById('ai-result-container').classList.remove('hidden'); document.getElementById('ai-result-container').classList.add('flex');
         }
         
         window.openEditAIModal = function(index) {
             const q = window.currentAIGeneratedQuestions[index]; document.getElementById('edit-ai-index').value = index; document.getElementById('edit-ai-text').value = q.text || ''; document.getElementById('edit-ai-pembahasan').value = q.pembahasan || '';
+            const mapel = document.getElementById('ai-mapel').value; const kelas = document.getElementById('ai-kelas').value;
+            const kisi = window.resolveKisiRow(q, index, mapel, { materi: document.getElementById('ai-materi').value.trim(), cp: document.getElementById('ai-cp').value.trim() }, kelas);
+            if (document.getElementById('edit-ai-elemen')) document.getElementById('edit-ai-elemen').value = q.elemen || kisi.elemen;
+            if (document.getElementById('edit-ai-materi')) document.getElementById('edit-ai-materi').value = q.materi || kisi.materi;
+            if (document.getElementById('edit-ai-level')) document.getElementById('edit-ai-level').value = q.level_kognitif || kisi.level;
+            if (document.getElementById('edit-ai-cp')) document.getElementById('edit-ai-cp').value = q.cp || kisi.cp;
+            if (document.getElementById('edit-ai-indikator')) document.getElementById('edit-ai-indikator').value = q.indikator || kisi.indikator;
             const dynFields = document.getElementById('edit-ai-dynamic-fields'); let html = '';
             if (q.type === 'PG' || !q.type) { q.options.forEach((opt, idx) => { html += `<div class="flex items-center gap-2"><input type="radio" name="edit-ai-pg-ans" value="${idx}" ${q.answer === idx ? 'checked' : ''} class="w-4 h-4 text-indigo-600 cursor-pointer"><input type="text" id="edit-ai-opt-${idx}" value="${opt}" class="w-full px-2 py-1 border rounded text-sm focus:border-indigo-500 outline-none"></div>`; });
             } else if (q.type === 'ISIAN') { html += `<div><label class="block text-xs font-bold text-gray-500 mb-1">Kunci Jawaban Tepat</label><input type="text" id="edit-ai-isian-ans" value="${q.answer || ''}" class="w-full px-3 py-2 border rounded text-sm focus:border-indigo-500 outline-none"></div>`;
@@ -2154,6 +2240,11 @@ ${formatInstruksi.join('\n')}`;
         window.saveEditAIQuestion = function() {
             const index = parseInt(document.getElementById('edit-ai-index').value); const q = window.currentAIGeneratedQuestions[index];
             q.text = document.getElementById('edit-ai-text').value; q.pembahasan = document.getElementById('edit-ai-pembahasan').value;
+            if (document.getElementById('edit-ai-elemen')) q.elemen = document.getElementById('edit-ai-elemen').value.trim();
+            if (document.getElementById('edit-ai-materi')) q.materi = document.getElementById('edit-ai-materi').value.trim();
+            if (document.getElementById('edit-ai-level')) q.level_kognitif = document.getElementById('edit-ai-level').value.trim();
+            if (document.getElementById('edit-ai-cp')) q.cp = document.getElementById('edit-ai-cp').value.trim();
+            if (document.getElementById('edit-ai-indikator')) q.indikator = document.getElementById('edit-ai-indikator').value.trim();
             if (q.type === 'PG' || !q.type) { const selectedAns = document.querySelector('input[name="edit-ai-pg-ans"]:checked'); if (selectedAns) q.answer = parseInt(selectedAns.value); q.options.forEach((_, idx) => { q.options[idx] = document.getElementById(`edit-ai-opt-${idx}`).value; });
             } else if (q.type === 'ISIAN') { q.answer = document.getElementById('edit-ai-isian-ans').value;
             } else if (q.type === 'URAIAN') { const kws = document.getElementById('edit-ai-uraian-ans').value.split(',').map(s => s.trim()).filter(s => s); q.answer_keywords = kws;
@@ -2162,18 +2253,24 @@ ${formatInstruksi.join('\n')}`;
         }
 
         window.downloadKisiKisiCSV = function() {
-            const mapel = document.getElementById('ai-mapel').value; const kelas = document.getElementById('ai-kelas').value; const materi = document.getElementById('ai-materi').value; const cp = document.getElementById('ai-cp').value;
+            const mapel = document.getElementById('ai-mapel').value; const kelas = document.getElementById('ai-kelas').value; const materi = document.getElementById('ai-materi').value.trim(); const cp = document.getElementById('ai-cp').value.trim();
             let csvContent = `\ufeffKISI-KISI ${window.examTitle.toUpperCase()}\n\n`; csvContent += `Mata Pelajaran,${mapel}\nKelas/Fase,${kelas}\n\n`;
-            csvContent += `"No","Capaian Pembelajaran","Materi","Indikator Soal","Level Kognitif","Bentuk Soal","No. Soal"\n`;
+            csvContent += `"No","Elemen","Capaian Pembelajaran (CP/TP)","Materi Pokok","Indikator Soal","Level Kognitif","Bentuk Soal","No. Soal"\n`;
             window.currentAIGeneratedQuestions.forEach((q, i) => {
-                let bentuk = q.type || 'PG'; let indikator = q.indikator || `Siswa dapat menyelesaikan persoalan terkait materi tersebut.`; let level = q.level_kognitif || "-";
-                csvContent += `"${i+1}","${cp}","${materi}","${indikator}","${level}","${bentuk}","${i+1}"\n`;
+                const row = window.resolveKisiRow(q, i, mapel, { materi, cp }, kelas);
+                csvContent += `"${i+1}","${row.elemen.replace(/"/g, '""')}","${row.cp.replace(/"/g, '""')}","${row.materi.replace(/"/g, '""')}","${row.indikator.replace(/"/g, '""')}","${row.level.replace(/"/g, '""')}","${row.bentuk}","${i+1}"\n`;
             });
-            const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", "data:text/csv;charset=utf-8," + encodedUri); link.setAttribute("download", `Kisi_Kisi_${mapel.replace(/ /g, '_')}_${kelas.replace(/ /g, '')}.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `Kisi_Kisi_${mapel.replace(/[^a-zA-Z0-9]/g, '_')}_${kelas.replace(/[^a-zA-Z0-9]/g, '')}.csv`;
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         }
 
         window.printKisiKisiPDF = function() {
-            const mapel = document.getElementById('ai-mapel').value; const kelas = document.getElementById('ai-kelas').value; const materi = document.getElementById('ai-materi').value; const cp = document.getElementById('ai-cp').value;
+            const mapel = document.getElementById('ai-mapel').value; const kelas = document.getElementById('ai-kelas').value; const materi = document.getElementById('ai-materi').value.trim(); const cp = document.getElementById('ai-cp').value.trim();
             let info = window.schoolInfo || {}; 
             let clsCode = window.currentAITargetClass || "ALL"; 
             let t = (info.teachersClass || {})[clsCode] || {}; 
@@ -2183,11 +2280,11 @@ ${formatInstruksi.join('\n')}`;
             let tgl = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
             
             let html = `<div class="print-container"><style>@page { size: legal landscape; }</style><h2 class="text-center font-bold text-xl uppercase">KISI-KISI ${window.examTitle.toUpperCase()}</h2><div class="flex justify-between mb-2 font-bold text-sm mt-4"><div>Mata Pelajaran: ${mapel}</div><div>Kelas/Fase: ${kelas}</div></div>`;
-            html += `<table class="print-table mb-8"><thead><tr><th style="width: 3%;">No</th><th style="width: 25%;">Capaian Pembelajaran (CP)</th><th style="width: 15%;">Materi Pokok</th><th style="width: 30%;">Indikator Soal</th><th style="width: 10%;">Level Kognitif</th><th style="width: 10%;">Bentuk Soal</th><th style="width: 7%;">No. Soal</th></tr></thead><tbody>`;
+            html += `<table class="print-table mb-8"><thead><tr><th style="width: 3%;">No</th><th style="width: 12%;">Elemen</th><th style="width: 24%;">Capaian Pembelajaran (CP/TP)</th><th style="width: 14%;">Materi Pokok</th><th style="width: 28%;">Indikator Soal</th><th style="width: 7%;">Level</th><th style="width: 7%;">Bentuk</th><th style="width: 5%;">No. Soal</th></tr></thead><tbody>`;
             
             window.currentAIGeneratedQuestions.forEach((q, i) => {
-                let bentuk = q.type || 'PG'; let indikator = q.indikator || `Siswa dapat menyelesaikan persoalan terkait materi tersebut.`; let level = q.level_kognitif || "-";
-                html += `<tr><td>${i+1}</td><td class="text-left">${cp}</td><td class="text-left">${materi}</td><td class="text-left">${indikator}</td><td>${level}</td><td>${bentuk}</td><td style="font-weight:bold;">${i+1}</td></tr>`;
+                const row = window.resolveKisiRow(q, i, mapel, { materi, cp }, kelas);
+                html += `<tr><td>${i+1}</td><td class="text-left">${row.elemen}</td><td class="text-left">${row.cp}</td><td class="text-left">${row.materi}</td><td class="text-left">${row.indikator}</td><td>${row.level}</td><td>${row.bentuk}</td><td style="font-weight:bold;">${i+1}</td></tr>`;
             });
             
             html += `</tbody></table><div class="flex justify-between px-10 text-sm mt-10"><div class="text-center"><p>Mengetahui,</p><p class="font-bold">Kepala ${info.schoolName || 'Satuan Pendidikan'}</p><br><br><br><br><p class="font-bold underline">${info.kepsekName || '.....................................'}</p><p>NIP. ${info.kepsekNip || '..........................'}</p></div><div class="text-center"><p>Manado, ${tgl}</p><p class="font-bold">Guru Penyusun Soal</p><br><br><br><br><p class="font-bold underline">${teacherName}</p><p>NIP. ${teacherNip}</p></div></div></div>`;
